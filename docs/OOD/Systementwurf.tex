@@ -1,0 +1,465 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{geometry}
+\geometry{a4paper, left=3cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+
+\usepackage{longtable}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+
+
+\usepackage{tabularx}
+
+
+
+
+\title{Systementwurf\\[1ex]\large{Projektname: \textit{TippHub by THM}}}
+\author{Gruppe C}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	\newpage
+	\tableofcontents
+	\newpage
+	
+	
+	\section{Operationelle Verträge}
+	\subsection{LCB (Local Community Betreiber)}
+		\newtcolorbox{contractbox}[1][]{
+		colback=gray!5!white,
+		colframe=gray!70!black,
+		title=#1,
+		fonttitle=\bfseries,
+		boxrule=0.4pt,
+		arc=4pt,
+		outer arc=4pt,
+		left=2mm,
+		right=2mm,
+		top=1mm,
+		bottom=1mm,
+		enhanced,
+		breakable
+	}
+	
+	\subsubsection{PUS in lokaler Community verwalten}
+	\begin{contractbox}[\texttt{Operation OP1:openManagementTool}]
+		\textbf{Operation:} openManagementTool()
+		
+			\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item LCB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von LcbAdministrationView lcb-administration wurde erzeugt.
+			\item Das Verwaltungstool wurde geöffnet.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2:searchPUS}]
+		\textbf{Operation:} searchPUS(username: String)
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Verwaltungstool ist geöffnet.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item lcb-administration wurde mit PeerUser assoziiert,
+			basierend auf dem angegebenen username
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3:displayPUS}]
+	\textbf{Operation:} displayPUS()
+	
+	\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+	
+	\textbf{Vorbedingungen:}
+	\begin{itemize}[noitemsep]
+		\item Der LCB sucht nach einem PUS
+	\end{itemize}
+	
+	\textbf{Nachbedingungen:}
+	\begin{itemize}[noitemsep] 
+		\item Der gesuchte PUS wurde erfolgreich gefunden.
+	\end{itemize}
+\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4:chooseAction}]
+		\textbf{Operation:} chooseAction(action:Integer)
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der PUS wurde gefunden.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item lcb-administration.action wird auf 1(Aufnahme) oder 2(Entfernung) gestellt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP5:confirmAction}]
+		\textbf{Operation:} confirmAction(pusID:PusID, action:Integer)
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Aktion wurde gewählt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die lcb-administration.action wird dem System mitgeteilt
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP6:updateCommunityStatus}]
+		\textbf{Operation:} updateCommunityStatus(pusID:PusID,localcommuityID:LocalcommuityID)
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde bestätigt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item localcommunity wurde mit Peeruser assoziiert. 
+			\item Der localcommunity.status des PUS wurde entsprechend der Aktion aktualisiert.
+			\item Der PUS ist nun Mitglied oder kein Mitglied der Community.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	\begin{contractbox}[\texttt{Operation OP7:notifySuccess}]
+		\textbf{Operation:} notifySuccess()
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde erfolgreich durchgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Erfolgsmeldung über die durchgeführte Aktion wurde erzeugt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP8:displayFeedback}]
+		\textbf{Operation:} displayFeedback(erfolg:boolean)
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde erfolgreich durchgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Rückmeldung wird dem LCB angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\subsubsection{Regionale Zugehörigkeit prüfen}
+	\begin{contractbox}[\texttt{Operation OP1:openManagementTool}]
+		\textbf{Operation:} openManagementTool()
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item LCB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von LcbAdministrationView lcb-administration wurde erzeugt.
+			\item Das Verwaltungstool wurde geöffnet.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2:searchPUS}]
+		\textbf{Operation:} searchPUS(username: String)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Verwaltungstool ist geöffnet.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item lcb-administration wurde mit PeerUser assoziiert,
+			basierend auf dem angegebenen username
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3:displayPUS}]
+		\textbf{Operation:} displayPUS()
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der LCB sucht nach einem PUS
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep] 
+			\item Der gesuchte PUS wurde erfolgreich gefunden.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4:chooseAction}]
+		\textbf{Operation:} chooseAction(action:Integer)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der PUS wurde gefunden.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item lcb-administration.action wird auf 1(Aufnahme) oder 2(Entfernung) gestellt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP5:confirmAction}]
+		\textbf{Operation:} confirmAction(pusID:PusID, action:Integer)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Aktion wurde gewählt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die lcb-administration.action wird dem System mitgeteilt
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP6:checkRegionalEligibility}]
+		\textbf{Operation:} checkRegionalEligibility(pusID:PusID,localcommuityID:LocalcommuityID)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Aktion zur Aufnahme wurde bestätigt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item localcommunity wurde mit Peeruser assoziiert. 
+			\item peeruser.region wird verglichen mit localcommunity.region.
+			\item Das System hat überprüft, ob der PUS regional zur Community gehört.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	\begin{contractbox}[\texttt{Operation OP7:updateCommunityStatus}]
+		\textbf{Operation:} updateCommunityStatus(pusID:PusID,localcommuityID:LocalcommuityID)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde bestätigt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item localcommunity wurde mit Peeruser assoziiert. 
+			\item Der localcommunity.status des PUS wurde entsprechend der Aktion aktualisiert.
+			\item Der PUS ist nun Mitglied oder kein Mitglied der Community.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	\begin{contractbox}[\texttt{Operation OP8:notifySuccess}]
+		\textbf{Operation:} notifySuccess()
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde erfolgreich durchgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Erfolgsmeldung über die durchgeführte Aktion wurde erzeugt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP9:displayFeedback}]
+		\textbf{Operation:} displayFeedback(erfolg:boolean)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde erfolgreich durchgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Rückmeldung wird dem LCB angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	\subsubsection{Konfliktentscheidung zwischen PUSs auflösen}
+	
+	
+	\begin{contractbox}[\texttt{Operation OP1:sendConflict}]
+		\textbf{Operation:} sendConflict(pusID:List[PusID])
+		
+		\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Ein Konflikt wurde erfasst.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von Conflict conflict wurde erzeugt.
+			\item conflict.status wurde auf 1 (offen) gesetzt.
+			\item conflict.datum wurde auf das aktuelle Systemdatum gesetzt.
+			\item confilct.details wurde mit dem übergebenen Text belegt.
+			\item conflict wurde mit PeerUser assoziiert,
+			basiert auf der pusID.
+			\item Eine Benachrichtigung wurde an den Local Community Betreiber gesendet.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2:displayConflict}]
+		\textbf{Operation:} displayConflict(conflictID:ConflictID)
+		
+		\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der Konflikt existiert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Intern wurden Getter-Methoden auf dem Conflict Objekt aufgerufen
+			\begin{itemize}
+				\item \texttt{getStatus()}
+				\item \texttt{getDate()}
+				\item \texttt{getDetails()}
+			\end{itemize}
+			\item Die Daten des Konflikts werden angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3:checkInvolvedPUS}]
+		\textbf{Operation:} checkInvolvedPUS(conflictID:ConflictID)
+		
+		\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der Konflikt existiert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Liste der beteiligten PUS wurde angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4:contactPUS}]
+		\textbf{Operation:} contactPUS(pusID:List[PusID])
+		
+		\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die PUSs sind dem Konflikt zugeordnet.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die PUSs wurden kontaktiert.
+		\end{itemize}
+	\end{contractbox}
+	
+
+	\begin{contractbox}[\texttt{Operation OP5:submitDecision}]
+		\textbf{Operation:} submitDecision(conflictID:ConflictID, decision:String)
+		
+	\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Für den Konflikt existiert ein offener Status.
+			\item Der LCB hat eine Entscheidung getroffen.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item contract.decision wurde mit der übermittelten Entscheidung belegt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP6:updateConflictStatus}]
+		\textbf{Operation:} updateConflictStatus(conflictID:ConflictID)
+		
+	\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine gültige Entscheidung liegt vor.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item conflict.status wurde auf 2(geschlossen) gesetzt.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	

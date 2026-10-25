@@ -1,0 +1,46 @@
+@startuml
+actor ":Local Community Betreiber" as LCB
+participant ":System" as System
+
+
+LCB -> System : Verwaltungstool öffnen
+rnote right #lightgreen: OP1
+activate System
+activate LCB
+
+LCB -> System : PUS suchen
+rnote right #lightgreen: OP2
+deactivate LCB
+
+System --> LCB : PUS gefunden
+rnote left #lightgreen: OP3
+
+activate LCB
+LCB -> System : Aufnahme oder Entfernung wählen
+rnote right #lightgreen: OP4
+
+LCB -> System : Aktion bestätigen
+rnote right #lightgreen: OP5
+
+System -> System : Regionalkompatibilität prüfen
+rnote right #lightgreen: OP6
+deactivate LCB
+
+loop PUS gehört regional nicht zur Community
+    System --> LCB : Fehler: PUS gehört regional nicht zur Community
+    LCB -> System : PUS suchen
+    activate LCB
+end
+
+System -> System : Community-Status des PUS aktualisieren
+rnote right #lightgreen: OP7
+deactivate LCB
+
+System --> LCB : Erfolg bestätigen
+rnote left #lightgreen: OP8
+
+System --> LCB : Rückmeldung anzeigen
+rnote left #lightgreen: OP9
+deactivate System
+
+@enduml

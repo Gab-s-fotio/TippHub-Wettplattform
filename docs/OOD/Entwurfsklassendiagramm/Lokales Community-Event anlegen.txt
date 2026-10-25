@@ -1,0 +1,34 @@
+@startuml
+actor ":Local Community Betreiber" as LCB
+participant ":System" as System
+
+LCB -> System : Event-Verwaltungstool öffnen
+rnote right #lightgreen: OP1
+activate System
+activate LCB
+
+LCB -> System : Eventdetails eingeben
+rnote right #lightgreen: OP2
+deactivate LCB
+
+loop Ungültige oder fehlende Eventdetails
+    System --> LCB : Fehler: Eventdetails sind ungültig
+    LCB -> System : Eventdetails eingeben
+    activate LCB
+end
+
+LCB -> System : Event speichern
+rnote right #lightgreen: OP3
+deactivate LCB
+
+System --> LCB : Erfolg bestätigen
+rnote left #lightgreen: OP4
+
+System -> System : Event anlegen und lokalen Community zuordnen
+rnote right #lightgreen: OP5
+
+System -> System : Eventbenachrichtigung versenden an PUSs
+rnote right #lightgreen: OP6
+
+deactivate System
+@enduml

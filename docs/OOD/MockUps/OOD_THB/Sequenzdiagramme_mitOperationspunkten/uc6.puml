@@ -1,0 +1,35 @@
+@startuml
+
+actor ":TippHub Betreiber" as thb
+participant ":System" as system
+
+activate thb
+thb -> system: öffne Seite: "lokale Communities"
+rnote right #lightgreen: OP1(UC-6)
+activate system
+deactivate thb
+system --> thb: Anzeige der existierenden Communities
+activate thb
+thb -> system: klickt Buttom "neue lokale Community anlegen"
+rnote right #lightgreen: OP2(UC-6)
+system --> thb: Anzeige von Eingabemaske für Namen der Community und Manager-Auswahl
+thb -> system: Eingabe der Daten mit Button bestätigen
+rnote right #lightgreen: OP3(UC-6)
+system -> system: überprüfe Daten auf Vollständigkeit
+deactivate thb
+loop Kein Community-Name eingegeben
+system --> thb : Anzeige von Eingabemaske für Namen der Community und Manager-Auswahl
+thb -> system : Eingabe der Daten mit Button bestätigen
+end
+loop Community-Name ist bereits vergeben
+system --> thb : Anzeige von Eingabemaske für Namen der Community und Manager-Auswahl
+thb -> system : Eingabe der Daten mit Button bestätigen
+end
+loop Kein Community-Manager wurde ausgewählt
+system --> thb : Anzeige von Eingabemaske für Namen der Community und Manager-Auswahl
+thb -> system : Eingabe der Daten mit Button bestätigen
+end
+system --> thb: Bestätigung des Anlegens der neuen Community
+rnote left #lightgreen: OP4(UC-6)
+deactivate thb
+system ->> thb: Anzeige der existierenden Communities

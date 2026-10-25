@@ -1,0 +1,67 @@
+// Logo-Größe im Header
+.home-link img {
+  height: 100px;
+
+}
+.header-nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem 0 2rem;
+  box-sizing: border-box;
+  background: none;
+}
+
+.home-link a {
+  color: #007639;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+
+.right-links {
+  display: flex;
+  gap: 2rem;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  align-items: center;
+}
+
+.sidebar-toggle {
+  background: #007639;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  margin-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+}
+.sidebar-toggle .bar {
+  display: block;
+  width: 22px;
+  height: 3px;
+  margin: 2.5px 0;
+  background: #fff;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.right-links a {
+  color: #007639;
+  text-decoration: none;
+  font-size: 1.9rem;
+  font-weight: bold;
+
+}
+
+a.active {
+  text-decoration: underline;
+}
+
+

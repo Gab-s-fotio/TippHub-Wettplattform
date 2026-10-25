@@ -1,0 +1,823 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{geometry}
+\geometry{a4paper, left=3cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{tabularx}
+\usepackage{titlesec}
+
+% Neue Spaltendefinition für bessere Formatierung
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\titleformat{\subsubsection}[runin]{\bfseries}{\thesubsubsection}{1em}{}[.]
+
+\title{Testkonzept\\[1ex]\large{Projektname: \textit{TippHub by THM}}}
+\author{Gruppe C}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Kommerzielle Wettanbieter (KWA)}
+
+\subsection{Registrierung auf der Plattform (UC-24)}
+
+\subsubsection{Testfall :UC-24-HS: Erfolgreiche Registrierung}
+\begin{longtable}{|L{5cm}|L{10cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & Erfolgreiche Registrierung eines kommerziellen Wettanbieters \\
+\hline
+\textbf{Vorbedingungen} & Registrierungsformular ist geöffnet, Plattform ist betriebsbereit \\
+\hline
+\textbf{Nachbedingungen} & Wettanbieter ist erfolgreich registriert und wird zur Login-Seite weitergeleitet \\
+\hline
+\textbf{Eingabewerte} & 
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Firmenname: \texttt{SportwettenPro}
+  \item E-Mail: \texttt{kontakt@sportwettenpro.de}
+  \item Bankdaten: \textit{DE03 3455 4567 4567 45 BIC: bccbxä Bankname: ING-Bank}
+  \item Passwort: \texttt{Sicher123!}
+  \item Lizenznummer: \texttt{DE-123456}
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte} & \texttt{„Registrierung erfolgreich“}, automatischer Wechsel zur Loginseite oder Dashboard \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Felder ausfüllen
+  \item Button „Registrieren“ drücken
+  \item Meldung und Weiterleitung prüfen
+  \item Datenbankeintrag kontrollieren
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\end{longtable}
+
+\vspace{1.5cm}
+
+\subsubsection{Testfall :UC-24-AS: Fehlgeschlagene Registrierung (Pflichtfeld leer)}
+\begin{longtable}{|L{5cm}|L{10cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & Fehlgeschlagene Registrierung (Pflichtfeld leer) \\
+\hline
+\textbf{Vorbedingungen} & Registrierungsformular ist geöffnet \\
+\hline
+\textbf{Nachbedingungen} & Registrierung wird verweigert, Nutzer bleibt auf aktueller Seite \\
+\hline
+\textbf{Eingabewerte} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Firmenname: \texttt{SportwettenX}
+  \item E-Mail: \textit{leer}
+  \item Bankdaten: \textit{DE03 3455 4567 4567 45 BIC: bccbxä, ING-Bank}
+  \item Passwort: \texttt{1234}
+  \item Lizenznummer: \texttt{DE-999999}
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte} & \texttt{„E-Mail darf nicht leer sein“}, keine Weiterleitung, keine Registrierungsmöglichkeit \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Nur einige Felder ausfüllen und dabei E-Mail leer lassen
+  \item „Registrieren“-Button drücken
+  \item Fehlermeldung prüfen
+  \item Sicherstellen, dass kein Nutzer erstellt wurde
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\end{longtable}
+
+
+
+
+
+\subsection{Ankündigung für Wettangebote erstellen (UC-25)}
+
+\subsubsection{Testfall: UC-25-HS: Ankündigung erfolgreich erstellen}
+\begin{longtable}{|L{5cm}|L{10cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & Kommerzieller Wettanbieter (KWA) erstellt eine neue Ankündigung, um auf ein spezifisches Wettangebot aufmerksam zu machen \\
+\hline
+\textbf{Vorbedingungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item KWA ist eingeloggt
+  \item URL des Angebots ist freigegeben (Whitelist)
+  \item Ausreichendes THMCoins-Guthaben vorhanden (groeser oder gleich 10)
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Nachbedingungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Ankündigung wird erfolgreich veröffentlicht
+  \item Meldung: „Ankündigung veröffentlicht“ erscheint
+  \item Ankündigung ist im Dashboard sichtbar
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Eingabewerte} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Titel: \texttt{„Top-Wette im Juli“}
+  \item URL: \texttt{https://www.wettanbieter.de/juliaktion}
+  \item Zielgruppe: Sportwettfreunde
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Meldung: \texttt{„Ankündigung veröffentlicht“}
+  \item Eintrag im Ankündigungsmodul sichtbar
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Navigiere zu „Neue Ankündigung erstellen“
+  \item Pflichtfelder ausfüllen und Formular absenden
+  \item Bestätigungsnachricht prüfen
+  \item Sichtbarkeit der Ankündigung im Dashboard verifizieren
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\end{longtable}
+
+\vspace{1cm}
+
+\subsubsection{Testfall: UC-25-AS-1.1: Ankündigung nicht möglich – URL nicht freigegeben}
+\begin{longtable}{|L{5cm}|L{10cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & KWA versucht eine Ankündigung zu veröffentlichen – die URL ist jedoch nicht auf der Whitelist \\
+\hline
+\textbf{Vorbedingungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item KWA ist eingeloggt
+  \item Zugriff auf das Formular „Neue Ankündigung erstellen“ ist möglich
+  \item THMCoins-Guthaben groesser oder gleich 10 vorhanden
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Nachbedingungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Keine Veröffentlichung der Ankündigung
+  \item Fehlermeldung wird angezeigt
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Eingabewerte} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Titel: \texttt{„Sommerwette 2025“}
+  \item URL: \texttt{https://unbekannte-domain.de}
+  \item Zielgruppe: Laufkundschaft
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item System zeigt Fehlermeldung: \texttt{„URL nicht freigegeben“}
+  \item Formular bleibt erhalten, keine Weiterleitung
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Formular vollständig ausfüllen mit nicht freigegebener URL
+  \item Absenden → Fehlermeldung prüfen
+  \item Sicherstellen, dass keine Ankündigung erstellt wurde
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\end{longtable}
+
+\vspace{1cm}
+
+\subsubsection{Testfall: UC-27-AS-1.2: Guthaben kleiner als 10 THMCoins}
+\begin{longtable}{|L{5cm}|L{10cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & KWA möchte eine Ankündigung veröffentlichen, scheitert jedoch wegen unzureichendem Guthaben \\
+\hline
+\textbf{Vorbedingungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item KWA ist eingeloggt
+  \item Zugriff auf das Formular „Neue Ankündigung erstellen“ ist möglich
+  \item URL ist whitelisted
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Nachbedingungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Ankündigung wird nicht veröffentlicht
+  \item Zahlungsaufforderung erscheint
+  \item Nutzer wird zur Guthabenaufladung weitergeleitet
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Eingabewerte} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Titel: \texttt{„Superquote Bundesliga“}
+  \item URL: \texttt{https://www.wettanbieter.de/superquote}
+  \item Zielgruppe: Fußballfans
+  \item Guthaben: \texttt{5 THMCoins}
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item System zeigt Hinweis: \texttt{„Bitte laden Sie Ihr Guthaben auf“}
+  \item Weiterleitung zum Zahlungsbereich erfolgt
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Formular korrekt ausfüllen bei zu geringem Guthaben
+  \item Absenden → Hinweis und Weiterleitung prüfen
+  \item Sicherstellen, dass keine Ankündigung erstellt wurde
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\end{longtable}
+
+
+\subsection{Zielgruppe für Ankündigung festlegen}
+
+\subsubsection{Testfall: UC-26-HS: Zielgruppe erfolgreich festlegen}
+\begin{longtable}{|L{5cm}|L{10cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & Kommerzieller Wettanbieter (KWA) konfiguriert beim Erstellen einer Ankündigung eine Zielgruppe mittels Geofilter, Interessen und Aktivitätslevel. Das System prüft die Gültigkeit und meldet Rückgaben entsprechend \\
+\hline
+\textbf{Vorbedingungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item KWA ist eingeloggt
+  \item Erstellungsformular für Zielgruppen-Ankündigung ist geöffnet
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Nachbedingungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Zielgruppe ist gespeichert
+  \item Digitale Signatur wurde generiert
+  \item Ankündigung ist validiert und bereit zur Verteilung
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Eingabewerte} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Geofilter: Hessen, NRW
+  \item Interessen: Fußball, Live-Wetten
+  \item Aktivitätslevel: Hoch
+  \item Link zur Aktion: \texttt{https://www.wettanbieter.de/topspiel}
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Meldung: \texttt{„Zielgruppe gespeichert“}
+  \item System erstellt digitale Signatur
+  \item Validierung erfolgreich
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.5em}
+\begin{itemize}[leftmargin=*]
+  \item Targeting-Optionen aufrufen und Zielgruppe konfigurieren
+  \item Speichern → Rückmeldung und Validierung prüfen
+  \item Nach Signatur-Erstellung Verteilung anstoßen
+\end{itemize}
+\vspace{0.5em}
+\end{minipage} \\
+\hline
+\end{longtable}
+
+
+\subsubsection{Testfall: UC-26-AS.1-2: Zielgruppenkonfiguration – Warnung oder Fehler}
+
+\begin{longtable}{|L{5cm}|L{10cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & Zielgruppeneinstellungen führen zu Warn- oder Fehlermeldungen (z.B. wegen zu geringer Reichweite oder ungültiger Konfiguration) \\
+\hline
+\textbf{Vorbedingungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.3em}
+\begin{itemize}[leftmargin=*]
+  \item KWA ist eingeloggt
+  \item Formular „Zielgruppen-Ankündigung“ ist geöffnet
+\end{itemize}
+\vspace{0.3em}
+\end{minipage} \\
+\hline
+\textbf{Nachbedingungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.3em}
+\begin{itemize}[leftmargin=*]
+  \item Keine Speicherung oder Verteilung bei Fehlkonfiguration
+  \item Bei Warnung darf gespeichert, aber nicht sofort verteilt werden
+\end{itemize}
+\vspace{0.3em}
+\end{minipage} \\
+\hline
+\textbf{Eingabewerte – Variante 1 (Warnung)} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.3em}
+\begin{itemize}[leftmargin=*]
+  \item Region: Bremen
+  \item Interessen: Pferdewetten
+  \item Systemreichweite: < 5 Empfänger
+\end{itemize}
+\vspace{0.3em}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte – Variante 1} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.3em}
+\begin{itemize}[leftmargin=*]
+  \item Warnmeldung: \texttt{„Geringe Reichweite“}
+  \item Speicherung möglich, Verteilung optional
+\end{itemize}
+\vspace{0.3em}
+\end{minipage} \\
+\hline
+\textbf{Eingabewerte – Variante 2 (Fehler)} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.3em}
+\begin{itemize}[leftmargin=*]
+  \item Ungültige Kombination von Parametern (z.B. leerer Filter)
+\end{itemize}
+\vspace{0.3em}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte – Variante 2} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.3em}
+\begin{itemize}[leftmargin=*]
+  \item Fehlermeldung: \texttt{„Konfiguration ungültig“}
+  \item Keine Speicherung möglich
+\end{itemize}
+\vspace{0.3em}
+\end{minipage} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{\linewidth}
+\vspace{0.3em}
+\begin{itemize}[leftmargin=*]
+  \item Variante 1: Zielgruppe absichtlich zu eng wählen → Warnung prüfen
+  \item Variante 2: Pflichtfelder leer lassen oder ungültig kombinieren → Fehlermeldung prüfen
+  \item Sicherstellen, dass keine Verteilung erfolgt
+\end{itemize}
+\vspace{0.3em}
+\end{minipage} \\
+\hline
+\end{longtable}
+
+
+
+\subsection{Via externem Link ankündigen}
+
+\subsubsection{Testfall: UC-27-HS: Via externem Link die PUS ankündigen}
+\vspace{0.5cm}
+
+\begin{center}
+\begin{tabular}{|p{5cm}|p{10.5cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & 
+KWA nutzt einen externen Link, um die Promotion Unit (PUS) einer Community gezielt anzukündigen. \\
+\hline
+\textbf{Vorbedingungen} & 
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item KWA ist eingeloggt
+  \item Ziel-Link ist freigegeben
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Nachbedingungen} & 
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item PUS wird erfolgreich beworben
+  \item Ankündigung ist sichtbar
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Eingabewerte} & 
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Externer Link zur PUS
+  \item Zielgruppe: Community XYZ
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Meldung: \texttt{„Ankündigung veröffentlicht“}
+  \item Verlinkung aufrufbar und gültig
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Externen Link eingeben
+  \item Zielgruppe festlegen
+  \item Sichtbarkeit und Gültigkeit prüfen
+\end{itemize}
+\end{minipage} \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{1.5cm}
+
+
+
+\subsubsection{Testfall: UC-27-AS – Fehlgeleitete Weiterleitung via externem Link}
+\begin{tabular}{|p{5cm}|p{10.5cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & Der hinterlegte externe Link führt nicht zur PUS oder zeigt fehlerhafte Inhalte. \\
+\hline
+\textbf{Vorbedingungen} & 
+\begin{itemize}[leftmargin=*]
+  \item KWA hat Ankündigung mit fehlerhaftem Link erstellt
+\end{itemize} \\
+\hline
+\textbf{Nachbedingungen} & 
+\begin{itemize}[leftmargin=*]
+  \item Weiterleitung scheitert oder führt ins Leere
+\end{itemize} \\
+\hline
+\textbf{Eingabewerte} &
+\begin{itemize}[leftmargin=*]
+  \item Falscher Link zur PUS
+\end{itemize} \\
+\hline
+\textbf{Erwartete Ausgabewerte} & 
+\begin{itemize}[leftmargin=*]
+  \item Fehlermeldung oder leere Zielseite
+  \item Eventuell Logging des Fehlers
+\end{itemize} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{itemize}[leftmargin=*]
+  \item Ankündigung mit ungültigem Link öffnen
+  \item Weiterleitung prüfen
+\end{itemize} \\
+\hline
+\end{tabular}
+
+\subsection{Durch externen Link weiterleiten}
+
+\subsubsection{Testfall: UC-28-HS – Externer Link funktioniert}
+\vspace{0.5cm}
+
+\begin{center}
+\begin{tabular}{|p{5cm}|p{10.5cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & Nutzer klickt auf externen Link in der Ankündigung und wird korrekt zur Zielseite weitergeleitet. \\
+\hline
+\textbf{Vorbedingungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Externer Link wurde korrekt angegeben
+  \item Zielseite ist erreichbar
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Nachbedingungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Nutzer sieht gewünschte Zielseite
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Eingabewerte} & 
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Link: \texttt{https://partnerseite.de/aktion}
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Zielseite wird geöffnet
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Auf Link in Ankündigung klicken
+  \item Prüfen, ob richtige Seite erscheint
+\end{itemize}
+\end{minipage} \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{1.5cm}
+
+
+
+\subsubsection{Testfall: UC-28-AS – Externer Link nicht erlaubt}
+\vspace{0.5cm}
+
+\begin{center}
+\begin{tabular}{|p{5cm}|p{10.5cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & 
+System erkennt, dass ein angegebener externer Link nicht auf der Whitelist steht. \\
+\hline
+\textbf{Vorbedingungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Ankündigung mit nicht genehmigtem Link wird erstellt
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Nachbedingungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Link wird nicht gespeichert
+  \item Hinweis auf nicht erlaubten Link erscheint
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Eingabewerte} & 
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Link: \texttt{https://nicht-erlaubt.com}
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Fehlermeldung: \texttt{„Externer Link nicht erlaubt“}
+\end{itemize}
+\end{minipage} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Link einfügen
+  \item Meldung prüfen
+\end{itemize}
+\end{minipage} \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{1.5cm}
+
+
+
+\subsection{THMCoins an PUS gutschreiben (UC-29)}
+
+\subsubsection{Testfall: UC-29-HS – THMCoins erfolgreich gutschreiben}
+\vspace{0.5cm}
+
+\renewcommand{\arraystretch}{1.3}
+\begin{center}
+\begin{tabular}{|p{5cm}|p{10.5cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & 
+PUS erhält eine definierte Anzahl an THMCoins von KWA als Vergütung. \\
+\hline
+\textbf{Vorbedingungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item KWA hat ausreichendes Guthaben
+  \item PUS ist bekannt und aktiv
+\end{itemize}
+\vspace{0.2cm}
+\end{minipage} \\
+\hline
+\textbf{Nachbedingungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Coins werden korrekt übertragen
+  \item Transaktion wird dokumentiert
+\end{itemize}
+\vspace{0.2cm}
+\end{minipage} \\
+\hline
+\textbf{Eingabewerte} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item PUS-ID: \texttt{PUS-7215}
+  \item Anzahl: \texttt{15 THMCoins}
+\end{itemize}
+\vspace{0.2cm}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Buchungseintrag in beiden Konten
+  \item Erfolgsmeldung
+\end{itemize}
+\vspace{0.2cm}
+\end{minipage} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Transaktion starten
+  \item Gutschrift prüfen
+\end{itemize}
+\vspace{0.2cm}
+\end{minipage} \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{1.5cm}
+
+\subsubsection{Testfall: UC-29-AS – Gutschrift nicht möglich: unzureichendes Guthaben}
+\vspace{0.5cm}
+
+\renewcommand{\arraystretch}{1.3}
+\begin{center}
+\begin{tabular}{|p{5cm}|p{10.5cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & 
+Versuch, einer PUS THMCoins gutzuschreiben, obwohl das KWA-Guthaben nicht ausreicht. \\
+\hline
+\textbf{Vorbedingungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item KWA ist angemeldet
+  \item PUS-ID ist gültig
+  \item KWA-Guthaben < angeforderter Betrag
+\end{itemize}
+\vspace{0.2cm}
+\end{minipage} \\
+\hline
+\textbf{Nachbedingungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Keine Gutschrift erfolgt
+  \item Hinweis auf fehlendes Guthaben wird angezeigt
+\end{itemize}
+\vspace{0.2cm}
+\end{minipage} \\
+\hline
+\textbf{Eingabewerte} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item PUS-ID: \texttt{PUS-7215}
+  \item Betrag: \texttt{15 THMCoins}
+\end{itemize}
+\vspace{0.2cm}
+\end{minipage} \\
+\hline
+\textbf{Erwartete Ausgabewerte} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item Fehlermeldung: \texttt{„Guthaben nicht ausreichend“}
+  \item Keine Buchung in Transaktionshistorien
+\end{itemize}
+\vspace{0.2cm}
+\end{minipage} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{minipage}[t]{10.5cm}
+\begin{itemize}[leftmargin=*]
+  \item KWA mit wenig Guthaben anmelden
+  \item Betrag zur Gutschrift festlegen
+  \item Übertragung auslösen
+  \item Meldung und Transaktionsverlauf kontrollieren
+\end{itemize}
+\vspace{0.2cm}
+\end{minipage} \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{1.5cm}
+
+\section*{Testfall: Monatliche THMCoins-Gutschrift an KWA gutschreiben}
+
+\begin{tabular}{|p{5cm}|p{10.5cm}|}
+\hline
+\textbf{Angaben für die Durchführung eines Tests} & Monatliche Gutschrift der gesammelten THMCoins eines KWAs auf dessen internes Konto \\
+\hline
+\textbf{Vorbedingungen} & 
+\begin{itemize}[leftmargin=*]
+  \item Gültiger KWA-Account existiert
+  \item Es liegen Transaktionen mit THMCoins vor
+  \item Monatlicher Abrechnungszyklus ist aktiv
+\end{itemize} \\
+\hline
+\textbf{Nachbedingungen} & 
+\begin{itemize}[leftmargin=*]
+  \item Gutschrift der Summe aller verdienten THMCoins im aktuellen Monat
+  \item Buchung ist im KWA-Dashboard ersichtlich
+  \item Abrechnungsbericht wird gespeichert
+\end{itemize} \\
+\hline
+\textbf{Eingabewerte} &
+\begin{itemize}[leftmargin=*]
+  \item KWA-ID: \texttt{KWA-87912}
+  \item Zeitraum: 01.06.2025 – 30.06.2025
+  \item Transaktionen: 25 THMCoins, 35 THMCoins, 40 THMCoins
+\end{itemize} \\
+\hline
+\textbf{Erwartete Ausgabewerte} & 
+\begin{itemize}[leftmargin=*]
+  \item Kontogutschrift: \texttt{100 THMCoins}
+  \item Meldung im auf Display: \texttt{„THMCoins erfolgreich gutgeschrieben“}
+\end{itemize} \\
+\hline
+\textbf{Prüfanweisungen} &
+\begin{itemize}[leftmargin=*]
+  \item Sicherstellen, dass automatische Abrechnung gestartet wird
+  \item Kontostand vor und nach Ausführung dokumentieren
+  \item Darstellung im Dashboard verifizieren
+\end{itemize} \\
+\hline
+\end{tabular}
+
+\end{document}

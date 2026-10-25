@@ -1,0 +1,28 @@
+{
+  "communities": [
+    {
+      "name": "Fußball",
+      "beschreibung": "Eine Community für alle Fußballfans!",
+      "teilnehmer": ["Max", "Anna", "Lukas"],
+      "bildUrl": "assets/images/test-images/footbaall2.jpeg"
+    },
+    {
+      "name": "Tennis",
+      "beschreibung": "Hier treffen sich Tennisbegeisterte!",
+      "teilnehmer": ["Sophie", "Tom", "Julia"],
+      "bildUrl": "assets/images/test-images/Tennis.webp"
+    },
+    {
+      "name": "American Football",
+      "beschreibung": "Touchdown für alle Football-Fans!",
+      "teilnehmer": ["Chris", "Mike", "Sarah"],
+      "bildUrl": "assets/images/test-images/american-football.png"
+    },
+    {
+      "name": "Golf",
+      "beschreibung": "Golfen in entspannter Runde.",
+      "teilnehmer": ["Paul", "Emma", "Leon"],
+      "bildUrl": "assets/images/test-images/golf.png"
+    }
+  ]
+}

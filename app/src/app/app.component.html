@@ -1,0 +1,6 @@
+<div class="background"></div>
+<ng-container *ngIf="!['/login'].includes(router.url)">
+  <app-header></app-header>
+</ng-container>
+
+<router-outlet></router-outlet>

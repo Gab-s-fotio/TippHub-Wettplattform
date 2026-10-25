@@ -1,0 +1,23 @@
+@startuml
+
+actor ":TippHub Betreiber" as thb
+participant ":System" as system
+
+activate thb
+thb -> system: öffne Seite: "Dashboard"
+rnote right #lightgreen: OP1(UC-5)
+activate system
+deactivate thb
+system --> thb: Anzeige der Kennzahlen
+rnote left #lightgreen: OP2(UC-5)
+activate thb
+thb -> system: wähle Kategorie für Detailansicht
+rnote right #lightgreen: OP3(UC-5)
+
+system --> thb: Zeigt Detailierte Kategorie
+
+thb -> system: wähle Zeitraum zur Eingrenzung
+rnote right #lightgreen: OP4(UC-5)
+
+system --> thb: Gibt Daten des Zeitraums aus 
+deactivate thb

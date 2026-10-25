@@ -1,0 +1,174 @@
+@startuml
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+KWA -> System: Anfrage "Registrierung als Wettanbieter"
+activate KWA
+activate System
+System --> KWA: Zeige Eingabemaske (Firmenangaben, Bankverbindung, Ansprechpartner)
+KWA -> System: Füllt Pflichtfelder aus und bestätigt AGB
+System -> System: Überprüfe Daten auf Vollständigkeit
+
+
+System --> KWA: Sende Registrierungsbestätigung
+@enduml
+
+
+@startuml
+actor ":Kommerzieller Wettanbieter" as KWA
+participant ":System" as System
+
+
+KWA -> System: "Neue Ankündigung erstellen" auswählen
+activate System
+
+System --> KWA: Formular anzeigen\n(Titel, URL, Zielgruppenfilter)
+activate KWA
+KWA -> System: Pflichtfelder ausfüllen
+
+
+    System -> System: Ankündigung veröffentlichen
+    System --> KWA: Erfolgsmeldung anzeigen\n"Ankündigung veröffentlicht"
+
+loop URL nicht whitelisted
+    System --> KWA: Fehlermeldung anzeigen\n"URL nicht freigegeben"
+end
+loop Guthaben < 10 THMCoins
+    System --> KWA: Zahlungsaufforderung anzeigen
+    KWA -> System: Weiterleitung zur Guthabenaufladung
+end 
+
+deactivate System
+deactivate  KWA
+@enduml
+
+@startuml
+title Zielgruppe_Festlegen
+
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+
+KWA -> System: "Zielgruppen-Ankündigung" wählen
+activate System
+
+System --> KWA: Targeting-Optionen anzeigen\n(Geofilter, Interessen, Aktivitätslevel)
+activate KWA
+KWA -> System: Zielgruppe konfigurieren\nund Link festlegen
+
+loop Unzureichende Abdeckung
+    System -> KWA: Warnung: Geringe Reichweite\n(geschätzte Reichweite < Minimum)
+  
+
+System -> System: Digitale Signatur generieren
+System -> System: Ankündigung validieren
+ 
+     System --> KWA: Erfolgsmeldung anzeigen\n"Zielgruppe gespeichert"
+    System --> KWA: Verteilung bestätigen\n(Push, Community-Feeds)
+deactivate KWA
+loop Fehler
+    System --> KWA: Fehlermeldung anzeigen\n"Konfiguration ungültig"
+end
+
+deactivate System
+@enduml
+
+
+@startuml
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+KWA -> System: Wählt "Neue Ankündigung erstellen"
+System --> KWA: Zeigt Formular (Titel, externe URL, Zielgruppenfilter, Budgetoptionen)
+activate System
+activate KWA
+KWA -> System: Füllt Pflichtfelder aus
+System -> System: Prüft Whitelist-Status der URL
+
+loop URL ist auf Whitelist
+    alt Guthaben größer oder gleich 10 THMCoins
+        System --> KWA: Veröffentlicht Ankündigung
+deactivate System
+deactivate KWA
+loop Guthaben kleiner 10 THMCoins
+        System --> KWA: Zahlungsaufforderung anzeigen
+        KWA -> System: Weiterleitung zur Guthabenaufladung
+    end
+
+        System --> KWA: Option zur manuellen THB-Freigabe
+
+@enduml
+
+
+@startuml
+title Externen Link weiterleiten
+
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+
+KWA -> System: Klick auf gesponserte Ankündigung
+activate System
+
+System -> System: Link-Sicherheit prüfen\n(Whitelist, Malware-Scan)
+
+    System -> System: Tracking-Pixel triggern
+    System --> KWA: Öffnet Zielseite in neuem Tab
+    activate KWA
+    System --> KWA: Zeigt Sicherheitshinweis\n"Externer Link"
+
+loop Link unsicher
+    System --> KWA: Warnmeldung anzeigen\n"Link blockiert aus Sicherheitsgründen"
+end
+
+deactivate System
+deactivate KWA
+@enduml
+
+
+@startuml
+title THMCoins an PUS gutschreiben
+
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+
+KWA -> System: Öffnet THMCoin-Verwaltung
+activate System
+System --> KWA: Eingabemaske anzeigen\n(PUS-Suche, Betrag, Verwendungszweck)
+activate KWA
+KWA -> System: PUS auswählen und Betrag eingeben
+System -> System: Validierung durchführen\n(PUS existiert? Guthaben ausreichend? Limit eingehalten?)
+
+
+    System --> KWA: Bestätigungsdialog anzeigen\n(Betrag, Empfänger, Gebühren)
+    KWA -> System: Transaktion bestätigen
+    System -> System: Coin-Transfer ausführen\n(Saldo aktualisieren, Transaktionsprotokoll)
+    System --> KWA: Erfolgsmeldung\n"Transfer erfolgreich"
+    System --> KWA: Transaktionsbeleg senden
+deactivate KWA
+loop Validierungsfehler
+    System --> KWA: Fehlermeldung anzeigen\n(z.B. "Tageslimit überschritten")
+end
+
+deactivate System
+@enduml
+
+@startuml
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+
+System -> System: Aggregiere Gutschriften je KWA
+System -> System: Ziehe 5 % Provision ab
+
+
+    System -> System: Erstelle Rechnung mit MwSt, Transaktionsliste, 14 Tage Zahlungsziel
+ System -> KWA: Sende Rechnung per E-Mail
+ activate KWA
+activate System
+    System -> System: Aktiviere Zahlungsüberwachung
+
+
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml
+
+actor ":TippHub Betreiber" as thb
+participant ":System" as system
+
+activate thb
+thb -> system: öffne Userverwaltung
+rnote right #lightgreen: OP1(UC-1)
+deactivate thb
+activate system
+system --> thb : zeige aktuellen Coinpreis
+rnote left #lightgreen: OP2(UC-1)
+activate thb
+thb -> system : Eingabe neuer Kaufpreis
+rnote right #lightgreen: OP3(UC-1)
+system -> system: überprüfe Daten auf Vollständigkeit
+deactivate thb
+loop Eingabefeld wurde leer gelassen
+system --> thb : zeige aktuellen Coinpreis
+thb -> system : Eingabe neuer Kaufpreis
+end
+loop Eingabe hat ungültiges Format
+system --> thb : zeige aktuellen Coinpreis
+thb -> system : Eingabe neuer Kaufpreis
+end
+
+system --> thb : Bestätigung der Kaufpreisänderung
+rnote left #lightgreen: OP4(UC-1)
+
+@enduml

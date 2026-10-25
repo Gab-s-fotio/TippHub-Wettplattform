@@ -1,0 +1,15 @@
+
+<div class="page-title">
+  Meine Communities
+</div>
+
+<div class="community-grid">
+  <app-community-card
+    *ngFor="let c of communities"
+    [name]="c.name"
+    [beschreibung]="c.beschreibung"
+    [bildUrl]="c.bildUrl">
+  </app-community-card>
+</div>
+
+

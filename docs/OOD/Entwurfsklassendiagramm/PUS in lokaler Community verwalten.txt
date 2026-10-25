@@ -1,0 +1,53 @@
+@startuml
+actor ":Local Community Betreiber" as LCB
+participant ":System" as System
+
+
+
+LCB -> System : Verwaltungstool öffnen
+rnote right #lightgreen: OP1
+activate LCB
+activate System
+
+LCB -> System : PUS suchen
+rnote right #lightgreen: OP2
+deactivate LCB
+
+loop PUS existiert nicht
+    System --> LCB : Fehler: PUS nicht gefunden
+    LCB -> System : PUS suchen
+end
+
+System --> LCB : PUS gefunden
+rnote left #lightgreen: OP3
+
+activate LCB
+LCB -> System : Aufnahme oder Entfernung wählen
+rnote right #lightgreen: OP4
+deactivate LCB
+
+loop Aufnahme und PUS ist bereits Mitglied
+    System --> LCB : Fehler: PUS bereits Mitglied dieser Community
+    System --> LCB : PUS gefunden
+end
+
+loop Entfernung und PUS ist kein Mitglied dieser Community
+    System --> LCB : Fehler: PUS ist kein Mitglied dieser Community
+    System --> LCB : PUS gefunden
+    activate LCB    
+end
+
+LCB -> System : Aktion bestätigen
+rnote right #lightgreen: OP5
+
+System -> System : Community-Status des PUS aktualisieren
+rnote right #lightgreen: OP6
+
+System --> LCB : Erfolg bestätigen
+rnote left #lightgreen: OP7
+
+System --> LCB : Rückmeldung anzeigen
+rnote left #lightgreen: OP8
+deactivate LCB
+
+@enduml

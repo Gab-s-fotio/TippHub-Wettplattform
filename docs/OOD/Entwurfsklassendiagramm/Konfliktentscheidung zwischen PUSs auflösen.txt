@@ -1,0 +1,34 @@
+@startuml
+actor ":Local Community Betreiber" as LCB
+participant ":System" as System
+
+System -> LCB : Konfliktbenachrichtigung senden
+rnote left #lightgreen: OP1
+activate System
+
+activate LCB
+LCB --> System : Konflikt anzeigen
+rnote right #lightgreen: OP2
+
+LCB --> System : Beteiligte PUSs und Verlauf prüfen
+rnote right #lightgreen: OP3
+
+LCB --> System : PUSs kontaktieren
+rnote right #lightgreen: OP4
+deactivate LCB
+
+loop PUS verweigert Zusammenarbeit
+    System -> LCB : Verweigerung
+    LCB --> System : Fall melden an THB
+    activate LCB
+end
+
+LCB --> System : Entscheidung übermitteln
+rnote right #lightgreen: OP5
+
+System -> LCB : Konfliktstatus aktualisiert
+rnote left #lightgreen: OP6
+deactivate LCB
+deactivate System
+
+@enduml

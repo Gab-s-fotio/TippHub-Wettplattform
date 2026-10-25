@@ -1,0 +1,16 @@
+<div class="logo-wrapper">
+  <img src="assets/images/Tipphub Logo.png" alt="Logo" class="logo" />
+</div>
+<div class="login-container">
+  <form (ngSubmit)="onLogin()">
+    <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required />
+    <input type="password" name="password" [(ngModel)]="password" placeholder="Passwort" required />
+
+    <button type="submit" class="btn btn-login">Login</button>
+  </form>
+
+  <div class="separator">oder</div>
+
+  <button class="btn btn-register" (click)="onRegister()">Registrieren</button>
+</div>
+

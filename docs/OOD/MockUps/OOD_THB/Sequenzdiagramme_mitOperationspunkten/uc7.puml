@@ -1,0 +1,23 @@
+@startuml
+
+actor ":TippHub Betreiber" as thb
+participant ":System" as system
+
+activate thb
+thb -> system: öffne Seite: "lokale Communities"
+rnote right #lightgreen: OP1(UC-7)
+deactivate thb
+activate system
+system --> thb: Anzeige der existierenden Communities
+rnote left #lightgreen: OP2(UC-7)
+activate thb
+thb -> system: suche Community-Namen und klicke Buttom "lokale Community löschen"
+rnote right #lightgreen: OP3(UC-7)
+system --> thb: Nachfrage, ob die Community wirklich gelöscht werden soll
+rnote left #lightgreen: OP4(UC-7)
+thb -> system: bestätigt die Nachfrage mit "Ja"
+rnote right #lightgreen: OP5(UC-7)
+system --> thb: bestätigt die Löschung durch eine Einblendung
+rnote left #lightgreen: OP6(UC-7)
+deactivate thb
+system ->> thb: Auflistung der lokalen Communities wird erneut angezeigt

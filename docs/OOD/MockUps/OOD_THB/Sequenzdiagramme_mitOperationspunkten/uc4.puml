@@ -1,0 +1,12 @@
+@startuml
+
+actor ":TippHub Betreiber" as thb
+participant ":System" as system
+
+thb -> system: öffne Dashboard
+rnote right #lightgreen: OP1(UC-4)
+activate thb
+activate system
+system --> thb: Anzeige der Kennzahlen
+rnote left #lightgreen: OP2(UC-4)
+deactivate thb

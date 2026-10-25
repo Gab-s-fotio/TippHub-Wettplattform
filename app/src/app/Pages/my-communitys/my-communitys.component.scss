@@ -1,0 +1,16 @@
+.page-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #007639;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  text-align: left;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.community-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: flex-start;
+}

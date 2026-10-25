@@ -1,0 +1,21 @@
+@startuml
+actor ":Local Community Betreiber" as LCB
+participant ":System" as System
+
+System -> System : aktive LCBs regelmäßig prüfen
+rnote right #lightgreen: OP1
+activate System
+
+loop LCB ist nicht mehr aktiv
+    System -> System : Status auf 'inaktiv' setzen
+    System -> System : aktive LCBs regelmäßig prüfen
+end
+
+System -> System : Transaktion von THMCoins ausführen
+rnote right #lightgreen: OP2
+
+System ->> LCB : Benachrichtigung über Gutschrift
+rnote left #lightgreen: OP3
+
+deactivate System
+@enduml

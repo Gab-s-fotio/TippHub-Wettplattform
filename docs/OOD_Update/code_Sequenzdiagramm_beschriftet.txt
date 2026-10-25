@@ -1,0 +1,201 @@
+@startuml
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+KWA -> System: Anfrage "Registrierung als Wettanbieter"
+rnote right #lightgreen: OP1(UC-24)
+
+activate KWA
+activate System
+System --> KWA: Zeige Eingabemaske (Firmenangaben, Bankverbindung, Ansprechpartner)
+rnote left #lightgreen: OP2(UC-24)
+
+KWA -> System: Füllt Pflichtfelder aus und bestätigt AGB
+rnote right #lightgreen: OP3(UC-24)
+
+System -> System: Überprüfe Daten auf Vollständigkeit
+rnote right #lightgreen: OP4(UC-24)
+
+
+System --> KWA: Sende Registrierungsbestätigung
+rnote left #lightgreen: OP5(UC-24)
+
+@enduml
+
+@startuml
+actor ":Kommerzieller Wettanbieter" as KWA
+participant ":System" as System
+
+KWA -> System: "Neue Ankündigung erstellen" auswählen
+rnote right #lightgreen: OP1(UC-25)
+activate System
+
+System --> KWA: Formular anzeigen\n(Titel, URL, Zielgruppenfilter)
+rnote left #lightgreen: OP2(UC-25)
+activate KWA
+KWA -> System: Pflichtfelder ausfüllen
+rnote right #lightgreen: OP3(UC-24)
+
+    System -> System: Ankündigung veröffentlichen
+rnote right #lightgreen: OP4(UC-25)
+    System --> KWA: Erfolgsmeldung anzeigen\n"Ankündigung veröffentlicht"
+rnote left #lightgreen: OP5(UC-25)
+loop URL nicht whitelisted
+    System --> KWA: Fehlermeldung anzeigen\n"URL nicht freigegeben"
+end
+loop Guthaben < 10 THMCoins
+    System --> KWA: Zahlungsaufforderung anzeigen
+    KWA -> System: Weiterleitung zur Guthabenaufladung
+end 
+
+deactivate System
+deactivate  KWA
+@enduml
+
+@startuml
+
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+KWA -> System: "Zielgruppen-Ankündigung" wählen
+rnote right #lightgreen: OP1(UC-26)
+activate System
+
+System --> KWA: Targeting-Optionen anzeigen\n(Geofilter, Interessen, Aktivitätslevel)
+rnote left #lightgreen: OP2(UC-26)
+activate KWA
+KWA -> System: Zielgruppe konfigurieren\nund Link festlegen
+rnote right #lightgreen: OP3(UC-26)
+loop Unzureichende Abdeckung
+    System -> KWA: Warnung: Geringe Reichweite\n(geschätzte Reichweite < Minimum)
+  end
+
+System -> System: Digitale Signatur generieren
+rnote right #lightgreen: OP4(UC-26)
+System -> System: Ankündigung validieren
+ rnote right #lightgreen: OP5(UC-26)
+     System --> KWA: Erfolgsmeldung anzeigen\n"Zielgruppe gespeichert"
+rnote left #lightgreen: OP6(UC-26)
+    System --> KWA: Verteilung bestätigen\n(Push, Community-Feeds)
+rnote left #lightgreen: OP7(UC-26)
+deactivate KWA
+loop Fehler
+    System --> KWA: Fehlermeldung anzeigen\n"Konfiguration ungültig"
+end
+
+deactivate System
+@enduml
+
+@startuml
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+KWA -> System: Wählt "Neue Ankündigung erstellen"
+rnote right #lightgreen: OP1(UC-27)
+System --> KWA: Zeigt Formular (Titel, externe URL, Zielgruppenfilter, Budgetoptionen)
+rnote left #lightgreen: OP2(UC-27)
+activate System
+activate KWA
+KWA -> System: Füllt Pflichtfelder aus
+rnote right #lightgreen: OP3(UC-27)
+System -> System: Prüft Whitelist-Status der URL
+rnote right #lightgreen: OP4(UC-26)
+loop URL ist auf Whitelist
+    alt Guthaben größer oder gleich 10 THMCoins
+        System --> KWA: Veröffentlicht Ankündigung
+rnote left #lightgreen: OP5(UC-27)
+deactivate System
+deactivate KWA
+loop Guthaben kleiner 10 THMCoins
+        System --> KWA: Zahlungsaufforderung anzeigen
+        KWA -> System: Weiterleitung zur Guthabenaufladung
+    end
+
+        System --> KWA: Option zur manuellen THB-Freigabe
+rnote left #lightgreen: OP6(UC-27)
+@enduml
+
+@startuml
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+
+KWA -> System: Klick auf gesponserte Ankündigung
+rnote right #lightgreen: OP1(UC-28)
+
+activate System
+
+System -> System: Link-Sicherheit prüfen\n(Whitelist, Malware-Scan)
+rnote right #lightgreen: OP2(UC-28)
+
+    System -> System: Tracking-Pixel triggern
+rnote right #lightgreen: OP3(UC-28)
+
+    System --> KWA: Öffnet Zielseite in neuem Tab
+rnote left #lightgreen: OP4(UC-28)
+
+    activate KWA
+    System --> KWA: Zeigt Sicherheitshinweis\n"Externer Link"
+rnote left #lightgreen: OP5(UC-28)
+
+loop Link unsicher
+    System --> KWA: Warnmeldung anzeigen\n"Link blockiert aus Sicherheitsgründen"
+end
+
+deactivate System
+deactivate KWA
+@enduml
+
+@startuml
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+
+KWA -> System: Öffnet THMCoin-Verwaltung
+rnote right #lightgreen: OP1(UC-29)
+activate System
+System --> KWA: Eingabemaske anzeigen\n(PUS-Suche, Betrag, Verwendungszweck)
+rnote left #lightgreen: OP2(UC-29)
+activate KWA
+KWA -> System: PUS auswählen und Betrag eingeben
+rnote right #lightgreen: OP3(UC-29)
+System -> System: Validierung durchführen\n(PUS existiert? Guthaben ausreichend? Limit eingehalten?)
+rnote right#lightgreen: OP4(UC-29)
+
+    System --> KWA: Bestätigungsdialog anzeigen\n(Betrag, Empfänger, Gebühren)
+rnote left #lightgreen: OP5(UC-29)
+    KWA -> System: Transaktion bestätigen
+rnote right #lightgreen: OP6(UC-29)
+    System -> System: Coin-Transfer ausführen\n(Saldo aktualisieren, Transaktionsprotokoll)
+rnote right #lightgreen: OP7(UC-29)
+    System --> KWA: Erfolgsmeldung\n"Transfer erfolgreich"
+rnote left #lightgreen: OP8(UC-29)
+    System --> KWA: Transaktionsbeleg senden
+rnote left #lightgreen: OP9(UC-29)
+deactivate KWA
+loop Validierungsfehler
+    System --> KWA: Fehlermeldung anzeigen\n(z.B. "Tageslimit überschritten")
+end
+
+deactivate System
+@enduml
+
+@startuml
+actor ":Kommerzielle Wettanbieter" as KWA
+participant ":System" as System
+
+System -> System: Aggregiere Gutschriften je KWA
+rnote right #lightgreen: OP1(UC-30)
+System -> System: Ziehe 5 % Provision ab
+rnote right #lightgreen: OP6(UC-30)
+
+    System -> System: Erstelle Rechnung mit MwSt, Transaktionsliste, 14 Tage Zahlungsziel
+rnote right #lightgreen: OP2(UC-30)
+ System -> KWA: Sende Rechnung per E-Mail
+rnote left #lightgreen: OP4(UC-30)
+ activate KWA
+activate System
+    System -> System: Aktiviere Zahlungsüberwachung
+rnote right #lightgreen: OP5(UC-30)
+
+@enduml

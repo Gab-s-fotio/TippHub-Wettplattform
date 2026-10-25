@@ -1,0 +1,22 @@
+@startuml
+
+actor ":TippHub Betreiber" as thb
+participant ":System" as system
+
+activate thb
+thb -> system: öffne Seite: "lokale Communities"
+rnote right #lightgreen: OP1(UC-8)
+deactivate thb
+activate system
+system --> thb: Anzeige der existierenden Communities
+rnote left #lightgreen: OP2(UC-8)
+activate thb
+thb -> system: klickt auf Detailansicht einer lokaken Community
+rnote right #lightgreen: OP3(UC-8)
+system --> thb: Anzeige der Detailansicht
+thb -> system: wählt "Community-Manager ändern" und bestätigt seine Wahl mit "Speichern"
+rnote right #lightgreen: OP4(UC-8)
+system --> thb: bestätigt die Eingabe mit einer Einblendung
+rnote left #lightgreen: OP5(UC-8)
+deactivate thb
+system ->> thb: Auflistung der lokalen Communites wird angezeigt

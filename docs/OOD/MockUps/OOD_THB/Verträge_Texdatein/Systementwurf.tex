@@ -1,0 +1,1226 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{geometry}
+\geometry{a4paper, left=3cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+
+\usepackage{longtable}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+
+
+\usepackage{tabularx}
+
+
+
+
+\title{Systementwurf\\[1ex]\large{Projektname: \textit{TippHub by THM}}}
+\author{Gruppe C}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	\newpage
+	\tableofcontents
+	\newpage
+	
+	
+	\section{Operationelle Verträge}
+	\subsection{LCB (Local Community Betreiber)}
+		\newtcolorbox{contractbox}[1][]{
+		colback=gray!5!white,
+		colframe=gray!70!black,
+		title=#1,
+		fonttitle=\bfseries,
+		boxrule=0.4pt,
+		arc=4pt,
+		outer arc=4pt,
+		left=2mm,
+		right=2mm,
+		top=1mm,
+		bottom=1mm,
+		enhanced,
+		breakable
+	}
+	
+	\subsubsection{PUS in lokaler Community verwalten}
+	\begin{contractbox}[\texttt{Operation OP1:openManagementTool}]
+		\textbf{Operation:} openManagementTool()
+		
+			\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item LCB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von LcbAdministrationView lcb-administration wurde erzeugt.
+			\item Das Verwaltungstool wurde geöffnet.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2:searchPUS}]
+		\textbf{Operation:} searchPUS(username: String)
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Verwaltungstool ist geöffnet.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item lcb-administration wurde mit PeerUser assoziiert,
+			basierend auf dem angegebenen username
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3:displayPUS}]
+	\textbf{Operation:} displayPUS()
+	
+	\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+	
+	\textbf{Vorbedingungen:}
+	\begin{itemize}[noitemsep]
+		\item Der LCB sucht nach einem PUS
+	\end{itemize}
+	
+	\textbf{Nachbedingungen:}
+	\begin{itemize}[noitemsep] 
+		\item Der gesuchte PUS wurde erfolgreich gefunden.
+	\end{itemize}
+\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4:chooseAction}]
+		\textbf{Operation:} chooseAction(action:Integer)
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der PUS wurde gefunden.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item lcb-administration.action wird auf 1(Aufnahme) oder 2(Entfernung) gestellt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP5:confirmAction}]
+		\textbf{Operation:} confirmAction(pusID:PusID, action:Integer)
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Aktion wurde gewählt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die lcb-administration.action wird dem System mitgeteilt
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP6:updateCommunityStatus}]
+		\textbf{Operation:} updateCommunityStatus(pusID:PusID,localcommuityID:LocalcommuityID)
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde bestätigt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item localcommunity wurde mit Peeruser assoziiert. 
+			\item Der localcommunity.status des PUS wurde entsprechend der Aktion aktualisiert.
+			\item Der PUS ist nun Mitglied oder kein Mitglied der Community.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	\begin{contractbox}[\texttt{Operation OP7:notifySuccess}]
+		\textbf{Operation:} notifySuccess()
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde erfolgreich durchgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Erfolgsmeldung über die durchgeführte Aktion wurde erzeugt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP8:displayFeedback}]
+		\textbf{Operation:} displayFeedback(erfolg:boolean)
+		
+		\textbf{Querverweis:} Use Cases "PUS in lokaler Community verwalten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde erfolgreich durchgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Rückmeldung wird dem LCB angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\subsubsection{Regionale Zugehörigkeit prüfen}
+	\begin{contractbox}[\texttt{Operation OP1:openManagementTool}]
+		\textbf{Operation:} openManagementTool()
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item LCB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von LcbAdministrationView lcb-administration wurde erzeugt.
+			\item Das Verwaltungstool wurde geöffnet.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2:searchPUS}]
+		\textbf{Operation:} searchPUS(username: String)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Verwaltungstool ist geöffnet.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item lcb-administration wurde mit PeerUser assoziiert,
+			basierend auf dem angegebenen username
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3:displayPUS}]
+		\textbf{Operation:} displayPUS()
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der LCB sucht nach einem PUS
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep] 
+			\item Der gesuchte PUS wurde erfolgreich gefunden.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4:chooseAction}]
+		\textbf{Operation:} chooseAction(action:Integer)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der PUS wurde gefunden.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item lcb-administration.action wird auf 1(Aufnahme) oder 2(Entfernung) gestellt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP5:confirmAction}]
+		\textbf{Operation:} confirmAction(pusID:PusID, action:Integer)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Aktion wurde gewählt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die lcb-administration.action wird dem System mitgeteilt
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP6:checkRegionalEligibility}]
+		\textbf{Operation:} checkRegionalEligibility(pusID:PusID,localcommuityID:LocalcommuityID)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Aktion zur Aufnahme wurde bestätigt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item localcommunity wurde mit Peeruser assoziiert. 
+			\item peeruser.region wird verglichen mit localcommunity.region.
+			\item Das System hat überprüft, ob der PUS regional zur Community gehört.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	\begin{contractbox}[\texttt{Operation OP7:updateCommunityStatus}]
+		\textbf{Operation:} updateCommunityStatus(pusID:PusID,localcommuityID:LocalcommuityID)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde bestätigt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item localcommunity wurde mit Peeruser assoziiert. 
+			\item Der localcommunity.status des PUS wurde entsprechend der Aktion aktualisiert.
+			\item Der PUS ist nun Mitglied oder kein Mitglied der Community.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	\begin{contractbox}[\texttt{Operation OP8:notifySuccess}]
+		\textbf{Operation:} notifySuccess()
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde erfolgreich durchgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Erfolgsmeldung über die durchgeführte Aktion wurde erzeugt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP9:displayFeedback}]
+		\textbf{Operation:} displayFeedback(erfolg:boolean)
+		
+		\textbf{Querverweis:} Use Cases "Regionale Zugehörigkeit prüfen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde erfolgreich durchgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Rückmeldung wird dem LCB angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	\subsubsection{Konfliktentscheidung zwischen PUSs auflösen}
+	
+	
+	\begin{contractbox}[\texttt{Operation OP1:sendConflict}]
+		\textbf{Operation:} sendConflict(pusID:List[PusID])
+		
+		\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Ein Konflikt wurde erfasst.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von Conflict conflict wurde erzeugt.
+			\item conflict.status wurde auf 1 (offen) gesetzt.
+			\item conflict.datum wurde auf das aktuelle Systemdatum gesetzt.
+			\item confilct.details wurde mit dem übergebenen Text belegt.
+			\item conflict wurde mit PeerUser assoziiert,
+			basiert auf der pusID.
+			\item Eine Benachrichtigung wurde an den Local Community Betreiber gesendet.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2:displayConflict}]
+		\textbf{Operation:} displayConflict(conflictID:ConflictID)
+		
+		\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der Konflikt existiert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Intern wurden Getter-Methoden auf dem Conflict Objekt aufgerufen
+			\begin{itemize}
+				\item \texttt{getStatus()}
+				\item \texttt{getDate()}
+				\item \texttt{getDetails()}
+			\end{itemize}
+			\item Die Daten des Konflikts werden angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3:checkInvolvedPUS}]
+		\textbf{Operation:} checkInvolvedPUS(conflictID:ConflictID)
+		
+		\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der Konflikt existiert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Liste der beteiligten PUS wurde angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4:contactPUS}]
+		\textbf{Operation:} contactPUS(pusID:List[PusID])
+		
+		\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die PUSs sind dem Konflikt zugeordnet.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die PUSs wurden kontaktiert.
+		\end{itemize}
+	\end{contractbox}
+	
+
+	\begin{contractbox}[\texttt{Operation OP5:submitDecision}]
+		\textbf{Operation:} submitDecision(conflictID:ConflictID, decision:String)
+		
+	\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Für den Konflikt existiert ein offener Status.
+			\item Der LCB hat eine Entscheidung getroffen.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item contract.decision wurde mit der übermittelten Entscheidung belegt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP6:updateConflictStatus}]
+		\textbf{Operation:} updateConflictStatus(conflictID:ConflictID)
+		
+	\textbf{Querverweis:} Use Cases "Konfliktentscheidung zwischen PUSs auflösen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine gültige Entscheidung liegt vor.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item conflict.status wurde auf 2(geschlossen) gesetzt.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	
+	\subsubsection{THMCoins an LCB gutschreiben}
+	
+	\begin{contractbox}[\texttt{Operation OP1:checkActiveLCBs()}]
+		\textbf{Operation:} checkActiveLCBs()
+		
+			\textbf{Querverweis:} Use Cases "THMCoins an LCB gutschreiben"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der Systemprozess zur LCB-Aktivitätsprüfung ist aktiv.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item localcommunity wurde mit localcommunitybetreiber assoziert.
+			\item localcommuitybetreiber.status wurde überprüft
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2:creditTHMCoins}]
+		\textbf{Operation:} creditTHMCoins(pusID:PusID, amount:double)
+		
+		\textbf{Querverweis:} Use Cases "THMCoins an LCB gutschreiben"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der LCB ist aktiv.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item peeruser wurde mit localcommunitybetreiber assoziert basierend auf der pusID.
+			\item peeruser.thmcoins wurde um den angegebenen Betrag erhöht. 
+			\item Eine Transaktion wurde durchgeführt, um dem LCB THMCoins gutzuschreiben.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	\begin{contractbox}[\texttt{Operation OP3:notifyLCB}]
+		\textbf{Operation:} notifyLCB(pusID:PusID)
+		
+		\textbf{Querverweis:} Use Case "THMCoins an LCB gutschreiben"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine erfolgreiche Gutschrift-Transaktion wurde durchgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der LCB wurde über die Gutschrift informiert.
+			\item Eine Benachrichtigung mit dem übergebenen Inhalt wurde dem Benutzer angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\subsubsection{Lokales Community-Event anlegen}
+	
+	\begin{contractbox}[\texttt{Operation OP1:openEventTool}]
+		\textbf{Operation:} openEventTool()
+		
+		\textbf{Querverweis:} Use Cases "Lokales Community-Event anlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item LCB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von EventManagementView  eventmanagementview wurde erzeugt.
+			\item Das Event-Verwaltungstool wurde geöffnet.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2:enterEventDetails}]
+		\textbf{Operation:} enterEventDetails()
+		
+		\textbf{Querverweis:} Use Cases "Lokales Community-Event anlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Event-Verwaltungstool ist geöffnet.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep] 
+			\item Die eingegebenen Eventdetails wurden eingetippt.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	
+	\begin{contractbox}[\texttt{Operation OP3:saveEvent}]
+		\textbf{Operation:} saveEvent()
+		
+		\textbf{Querverweis:} Use Cases "Lokales Community-Event anlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Gültige Eventdetails wurden eingegeben.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Intern wurden Setter-Methoden auf dem eventmanagementview Objekt aufgerufen
+			\begin{itemize}[noitemsep]
+				\item \texttt{setTitle()}
+				\item \texttt{setDate()}
+				\item \texttt{setDescription()}
+			\end{itemize}
+			\item Die eingegebenen Eventdetails wurden validiert.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4:displayFeedback}]
+		\textbf{Operation:} displayFeedback(erfolg:boolean)
+		
+		\textbf{Querverweis:} Use Cases "Lokales Community-Event anlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Aktion wurde erfolgreich durchgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Rückmeldung wird dem LCB angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	
+	\begin{contractbox}[\texttt{Operation OP5:assignEventToLocalCommunity}]
+		\textbf{Operation:} assignEventToLocalCommunity(eventID:EventID, localcommunityID:LocalCommunityID)
+		
+		\textbf{Querverweis:} Use Cases "Lokales Community-Event anlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Event wurde erfolgreich angelegt.
+			\item Die Ziel-Community existiert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item eventmanagementview wurde mit localcommunity assoziiert.
+			\item Das Event wurde der lokalen Community des LCB zugeordnet.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP6:notifyPUSAboutEvent}]
+		\textbf{Operation:} notifyPUSAboutEvent(eventID:EventID)
+		
+		\textbf{Querverweis:} Use Cases "Lokales Community-Event anlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Event wurde einer lokalen Community zugeordnet.
+			\item Es existieren PUSs in dieser Community.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item eventmanagementview wurde mit localcommunity assoziiert.
+			\item localcommunity wurde mit peeruser assoziiert.
+			\item Eine Benachrichtigung über das Event wurde an alle relevanten PUSs gesendet.
+		\end{itemize}
+	\end{contractbox}
+
+	\subsection{LCB (TippHub Betreiber)}
+		\newtcolorbox{contractbox1}[1][]{
+		colback=gray!5!white,
+		colframe=gray!70!black,
+		title=#1,
+		fonttitle=\bfseries,
+		boxrule=0.4pt,
+		arc=4pt,
+		outer arc=4pt,
+		left=2mm,
+		right=2mm,
+		top=1mm,
+		bottom=1mm,
+		enhanced,
+		breakable
+	}
+
+	\subsubsection{Coinkaufpreis ändern}
+	\begin{contractbox}[\texttt{Operation OP1(UC-1): openCoinManagementTool}]
+		\textbf{Operation:} openCoinManagementTool()
+		
+			\textbf{Querverweis:} UC-1: Coinkaufpreis ändern
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von ThbAdministrationView thb-administration wurde erzeugt.
+			\item Das Coin-Verwaltungstool wurde geöffnet.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP2(UC-1): viewCoinPrice}]
+		\textbf{Operation:} viewCoinPrice()
+		
+			\textbf{Querverweis:} UC-1: Coinkaufpreis ändern
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Intern wurde Getter-Methoden auf dem Coin Objekt aufgerufen: getCoinPrice()
+			\item Die View des Coin-Verwaltungstools wurde angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3(UC-1): setCoinPrice}]
+		\textbf{Operation:} setCoinPrice(price: Float)
+		
+		\textbf{Querverweis:} UC-1: Coinkaufpreis ändern
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Coin-Verwaltungstool ist geöffnet.
+			\item Mit getCoinPrice() wird der aktuelle Preis einer ThmCoin zurückgegeben.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der Werte von thmcoin.price, wurde auf den Eingegebenen Wert gesetzt.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP4(UC-1): showCoinChangeConfirmation}]
+		\textbf{Operation:} showCoinChangeConfirmation(coinprice)
+		
+			\textbf{Querverweis:} UC-1: Coinkaufpreis ändern
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der Coinpreis wurde geändert
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Es wurde dem Nutzer mit einer Popup-Anzeige, das Anlegen der neuen Community bestätigt.
+		\end{itemize}
+	\end{contractbox}
+
+	\subsubsection{User sperren}
+	\begin{contractbox}[\texttt{Operation OP1(UC-2): openUserManagementTool}]
+		\textbf{Operation:} openUserManagementTool()
+		
+			\textbf{Querverweis:} UC-2: User sperren
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von ThbAdministrationView thb-administration wurde erzeugt.
+			\item Das User-Verwaltungstool wurde geöffnet.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP2(UC-2): viewUserList}]
+		\textbf{Operation:} viewUserList()
+		
+			\textbf{Querverweis:} UC-2: User sperren
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit getUserDetails(), wird eine Liste der User und ihr jeweiliger Status zurückgegeben.
+			\item Die View des User-Verwaltungstools wurde angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3(UC-2): setUserStatus}]
+		\textbf{Operation:} setUserStatus(status: Int)
+		
+		\textbf{Querverweis:} UC-2: User sperren
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das User-Verwaltungstool ist geöffnet.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Attribut, User.status, wurde auf 1 gesetzt.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP4(UC-2): showStatusChangeConfirmation}]
+		\textbf{Operation:} showStatusChangeConfirmation(userid: Int, status: Int)
+		
+			\textbf{Querverweis:} UC-2: User sperren
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der Userstatus wurde geändert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Es wurde dem Nutzer mit einer Popup-Anzeige, die Statusänderung eines Users bestätigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\subsubsection{User freigeben}
+	\begin{contractbox}[\texttt{Operation OP1(UC-3): openUserManagementTool}]
+		\textbf{Operation:} openUserManagementTool()
+		
+			\textbf{Querverweis:} UC-3: User freigeben
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von ThbAdministrationView thb-administration wurde erzeugt.
+			\item Das User-Verwaltungstool wurde geöffnet.
+			\item Mit getUserDetails(), wird eine Liste der User und ihr jeweiliger Status zurückgegeben.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP2(UC-3): viewUserList}]
+		\textbf{Operation:} viewUserList()
+		
+			\textbf{Querverweis:} UC-3: User freigeben
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit getUserDetails(), wird eine Liste der User und ihr jeweiliger Status zurückgegeben.
+			\item Die View des User-Verwaltungstools wurde angezeigt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3(UC-3): setUserStatus}]
+		\textbf{Operation:} setUserStatus(status: Float)
+		
+		\textbf{Querverweis:} UC-3: User freigeben
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das User-Verwaltungstool ist geöffnet.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Attribut, User.status, wurde auf 0 gesetzt.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP4(UC-3): showStatusChangeConfirmation}]
+		\textbf{Operation:} showStatusChangeConfirmation(userid: Int, status: Int)
+		
+			\textbf{Querverweis:} UC-3: User freigeben
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der Userstatus wurde geändert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Es wurde dem Nutzer mit einer Popup-Anzeige, die Statusänderung eines Users bestätigt.
+		\end{itemize}
+	\end{contractbox}
+
+	\subsubsection{Kennzahlen der Plattform ansehen}
+	\begin{contractbox}[\texttt{Operation OP1(UC-4): openDashboard}]
+		\textbf{Operation:} openDashboard()
+		
+			\textbf{Querverweis:} UC-4: Kennzahlen der Plattform ansehen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von ThbAdministrationView thb-administration wurde erzeugt.
+			\item Das Dashboard-Verwaltungstool wurde geöffnet.
+			\item Mit getDashboardPreview(), wird ein Überblick der Kennzahlen der letzten Woche zurückgegeben.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP2(UC-4): viewDashboardPreview}]
+		\textbf{Operation:} viewDashboardPreview()
+		
+			\textbf{Querverweis:} UC-4: Kennzahlen der Plattform ansehen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Dashboardview wurde erzeugt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit getDashboardPreview(), wird eine Liste der User und ihr jeweiliger Status zurückgegeben.
+			\item Die View des User-Verwaltungstools wurde angezeigt.
+		\end{itemize}
+	\end{contractbox}
+
+	\subsubsection{Details der Kennzahlen ansehen}
+	\begin{contractbox}[\texttt{Operation OP1(UC-5): openDashboard}]
+		\textbf{Operation:} openDashboard()
+		
+			\textbf{Querverweis:} UC-5: Kennzahlen der Plattform ansehen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von ThbAdministrationView thb-administration wurde erzeugt.
+			\item Das Dashboard-Verwaltungstool wurde geöffnet.
+			\item Mit getDashboardPreview(), wird ein Überblick der Kennzahlen der letzten Woche zurückgegeben.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP2(UC-5): viewDashboardPreview}]
+		\textbf{Operation:} viewDashboardPreview()
+		
+			\textbf{Querverweis:} UC-5: Kennzahlen der Plattform ansehen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Dashboardview wurde erzeugt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit getDashboardPreview(), wird eine Liste der User und ihr jeweiliger Status zurückgegeben.
+			\item Die View des User-Verwaltungstools wurde angezeigt.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP3(UC-5): showDetailedNumbers}]
+		\textbf{Operation:} showDetailedNumbers()
+		
+			\textbf{Querverweis:} UC-5: Kennzahlen der Plattform ansehen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openDashboard()) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit getRegPusDetails(), getLocalComDetails(), getBettingActDetails(), oder getCoinDetails() werden jeweils Detailierte Kennzahlen zurückgeben.
+			\item Dashboard wurde mit Peer User assoziiert.
+			\item Dashborad wurde mit Local Community assoziiert.
+			\item Dashborad wurde mit Wettanfrage assoziiert.
+			\item Dashborad wurde mit THM Coin assoziiert.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP4(UC-5): showDetailedNumbers(Daterange)}]
+		\textbf{Operation:} showDetailedNumbers(Daterange)
+		
+			\textbf{Querverweis:} UC-5: Kennzahlen der Plattform ansehen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openDashboard()) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit getRegPusDetails(Daterange), getLocalComDetails(Daterange), getBettingActDetails(Daterange), oder getCoinDetails(Daterange) wurden Detailierte Kennzahlen zurückgeben.
+			\item Dashboard wurde mit Peer User assoziiert.
+			\item Dashborad wurde mit Local Community assoziiert.
+			\item Dashborad wurde mit Wettanfrage assoziiert.
+			\item Dashborad wurde mit THM Coin assoziiert
+		\end{itemize}
+	\end{contractbox}
+
+	\subsubsection{Lokale Community anlegen}
+	\begin{contractbox}[\texttt{Operation OP1(UC-6): OpenCommunityTool}]
+		\textbf{Operation:} openCommunityTool()
+		
+			\textbf{Querverweis:} UC-6: Lokale Community anlegen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von ThbCommunityView thb-community wurde erzeugt.
+			\item Das Community-Verwaltungstool wurde geöffnet.
+			\item Mit getCommunityList() wird eine Auflistung der bereits existierenden lokalen Communities angezeigt.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP2(UC-6): viewCommunityform}]
+		\textbf{Operation:} viewCommunityForm()
+		
+			\textbf{Querverweis:} UC-6: Lokale Community anlegen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit viewCommunityForm() wurde der Server zur Anzeige eines neuen Community-Formulars aufgefordert.
+			\item Mit getCommunities() wurden die notwendigen Daten für das Frontend angefordert.
+			\item Das Formular wird dem Nutzer angezeigt.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP3(UC-6): Send Community-Form}]
+		\textbf{Operation:} sendCommunityForm(communityName: String, lcbName)
+		
+			\textbf{Querverweis:} UC-6: Lokale Community anlegen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+			\item OP2(viewCommunityForm()) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit sendCommunityForm(communityName, managerName) wurden die Daten an den Server gesendet.
+			\item Es wurde mit newCommunity() ein neues Objekt von localCommunity angelegt.
+			\item Es wurde mit setCommunityName(communityName) der Name der Community gesetzt.
+			\item Es wurde mit setCommunityManager(lcbName) der zugehörige Local Community Betreiber gesetzt.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP4(UC-6): Confirm new Community}]
+		\textbf{Operation:} showNewCommunityConfirmation(communityName, lcbName)
+		
+			\textbf{Querverweis:} UC-6: Lokale Community anlegen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+			\item OP2(viewCommunityForm()) wurde ausgeführt.
+			\item OP3(sendCommunityForm(communityName, lcbName)) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Es wurde dem Nutzer mit einer Popup-Anzeige, das Anlegen der neuen Community bestätigt.
+		\end{itemize}
+	\end{contractbox}
+
+	\subsubsection{Lokale Community löschen}
+	\begin{contractbox}[\texttt{Operation OP1(UC-7): OpenCommunityTool}]
+		\textbf{Operation:} openCommunityTool()
+		
+			\textbf{Querverweis:} UC-7: Lokale Community löschen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von ThbCommunityView thb-community wurde erzeugt.
+			\item Das Community-Verwaltungstool wurde geöffnet.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP2(UC-7): viewCommunityList}]
+		\textbf{Operation:} viewCommunityList()
+		
+			\textbf{Querverweis:} UC-7: Lokale Community anlegen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit getCommunities() wurden die notwendigen Daten für das Frontend angefordert und eine Liste der bestehenden Communities anzuzeigen.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP3(UC-7): delete Community}]
+		\textbf{Operation:} deleteCommunity(communityName)
+		
+			\textbf{Querverweis:} UC-7: Lokale Community löschen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit deleteCommunity(communityName) wurde eine Aufforderung an den Server geschickt, ein Community zu löschen.
+			\item Der Server prüft die Eingabe auf Korrektheit.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP4(UC-7): Confirm Community deletion}]
+		\textbf{Operation:} confirmCommunityDeletion(communityName)
+		
+			\textbf{Querverweis:} UC-7: Lokale Community löschen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+			\item OP2(deleteCommunity(communityName)) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Der Nutzer wurde gefragt, ob er die Community wirklich löschen möchte.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP5(UC-7): Community wird gelöscht}]
+		\textbf{Operation:} deleteCommunity(communityName)
+		
+			\textbf{Querverweis:} UC-7: Lokale Community löschen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+			\item OP2(viewCommunityForm()) wurde ausgeführt.
+			\item OP3(confirmCommunityDeletion(communityName)) wurde bestätigt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit deleteCommunity(communityName), wurde das Objekt zugehörige Objekt von localCommunity gelöscht.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP6(UC-7): Confirm Community Deletion}]
+		\textbf{Operation:} showNewCommunityDeletionConfirmation(communityName)
+		
+			\textbf{Querverweis:} UC-7: Lokale Community löschen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+			\item OP2(viewCommunityForm()) wurde ausgeführt.
+			\item OP3(confirmCommunityDeletion(communityName)) wurde bestätigt.
+			\item Op4(deleteCommunity(communityName)) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Es wurde dem Nutzer mit einer Popup-Anzeige, das Löschen der Community bestätigt.
+		\end{itemize}
+	\end{contractbox}
+
+	\subsubsection{Community-Manager zuordnen }
+	\begin{contractbox}[\texttt{Operation OP1(UC-8): OpenCommunityTool}]
+		\textbf{Operation:} openCommunityTool()
+		
+			\textbf{Querverweis:} UC-8: Community-Manager zuordnen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THB ist authentifiziert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Eine Instanz von ThbCommunityView thb-community wurde erzeugt.
+			\item Das Community-Verwaltungstool wurde geöffnet.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP2(UC-8): viewCommunityList}]
+		\textbf{Operation:} viewCommunityList()
+		
+			\textbf{Querverweis:} UC-8: Community-Manager zuordnen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit getCommunities() wurden die notwendigen Daten für das Frontend angefordert und eine Liste der bestehenden Communities anzuzeigen.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP3(UC-8): Edit Community}]
+		\textbf{Operation:} editCommunity(communityName)
+		
+			\textbf{Querverweis:} UC-8: Community-Manager zuordnen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Mit editCommunity(communityName) wurde eine Detailansicht der lokalen Community geöffnet.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP4(UC-8): Change Community-Manager}]
+		\textbf{Operation:} changeCommunityManger(communityName, PusID)
+		
+			\textbf{Querverweis:} UC-8: Community-Manager zuordnen
+			
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+			\item OP2(editCommunity(communityName)) wurde ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item In Local Community, wurde die Variable Community-Manager, auf die in der Methode übergebeben PusID gesetzt.
+		\end{itemize}
+	\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP5(UC-8): Confirm Manager-Change}]
+		\textbf{Operation:} showNewMangerChangeConfirmation(communityName, PusID)
+		
+			\textbf{Querverweis:} C-8: Community-Manager zuordnen
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item OP1(openCommunityTool()) wurde ausgeführt.
+			\item OP2(editCommunity(communityName)) wurde ausgeführt.
+			\item OP3(changeCommunityManger(communityName, PusID)) wurde erfolgreich ausgeführt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Es wurde dem Nutzer mit einer Popup-Anzeige, die Änderunbvg des Community-Managers bestätigt.
+		\end{itemize}
+	\end{contractbox}
+
+
+
+
+\end{document}

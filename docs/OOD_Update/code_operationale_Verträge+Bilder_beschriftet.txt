@@ -1,0 +1,836 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{geometry}
+\geometry{a4paper, left=3cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+
+\usepackage{longtable}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+
+
+\usepackage{tabularx}
+
+
+
+
+\title{Systementwurf\\[1ex]\large{Projektname: \textit{TippHub by THM}}}
+\author{Gruppe C}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	\newpage
+	\tableofcontents
+	\newpage
+	
+	
+	\section{Operationelle Verträge}
+	\subsection{KWA (Kommerzielle Wettanbieter)}
+		\newtcolorbox{contractbox}[1][]{
+		colback=gray!5!white,
+		colframe=gray!70!black,
+		title=#1,
+		fonttitle=\bfseries,
+		boxrule=0.4pt,
+		arc=4pt,
+		outer arc=4pt,
+		left=2mm,
+		right=2mm,
+		top=1mm,
+		bottom=1mm,
+		enhanced,
+		breakable
+	}
+	
+	\subsubsection{KWA auf Plattform registrieren}
+    \begin{figure}[H]
+	    \centering
+	    \includegraphics[width=0.8\linewidth]{KWA auf Plattform registrieren.png}
+	    \caption{KWA auf Plattform registrieren}
+	    \label{fig:enter-label}
+	\end{figure}
+    
+		\begin{contractbox}[\texttt{Operation OP1: openRegistertTool}]
+		\textbf{Operation:} openRegistertTool()
+		
+			\textbf{Querverweis:} Use Cases "KWA auf Plattform registrieren"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Plattform ist für Neuregistrierungen geöffnet
+            \item Benutzer hat Registrierungsbutton gefunden
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Registrierungs-Eingabemaske wird angezeigt
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2: showRegistrationForm}]
+		\textbf{Operation:} showRegistrationForm()
+		
+		\textbf{Querverweis:} Use Cases "KWA auf Plattform registrieren"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Registrierungsanfrage wurde gestellt
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item  Formular mit folgenden Feldern ist sichtbar:
+            \begin{itemize}[noitemsep]
+            \item Firmenangaben (Name, Adresse, Rechtsform)
+            \item Bankverbindung (IBAN, BIC)
+            \item Ansprechpartner (Name, Email, Telefon)
+            \item AGB-Checkbox
+        \end{itemize}
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3: submitRegistration }]
+	\textbf{Operation:} submitRegistration( FName : String , Bank  daten : Bank ,acceptTerms : Boolean )
+	
+	\textbf{Querverweis:} Use Cases "KWA auf Plattform registrieren"
+	
+	\textbf{Vorbedingungen:}
+	\begin{itemize}[noitemsep]
+		\item  Formular ist angezeigt
+	\end{itemize}
+	
+	\textbf{Nachbedingungen:}
+	\begin{itemize}[noitemsep] 
+		\item Daten wurden zur Überprüfung übermittelt
+        \item  Systemvalidierung wurde initiiert
+	\end{itemize}
+\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4: validateRegistration }]
+		\textbf{Operation:} validateRegistration( FName : String , Bank  daten : Bank ,acceptTerms : Boolean )
+		
+		\textbf{Querverweis:} Use Cases "KWA auf Plattform registrieren"
+
+        \textbf{Vorbedingungen:}
+    \begin{itemize}[noitemsep]
+        \item Registrierungsdaten wurden eingereicht 
+    \end{itemize}
+	
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+        \item Daten wurden auf vollständigigkeit geprüft.
+			\item  \item Ergebnis (valide/invalide) liegt vor.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP5:confirmRegistration}]
+		\textbf{Operation:} completeRegistration(Firmenname:String)
+		
+		\textbf{Querverweis:} Use Cases "KWA auf Plattform registrieren"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item  Daten wurden erfolgreich validiert
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Firmendaten (Name, Adresse, Rechtsform) sind validiert und gespeichert.
+            \item Bankverbindung (IBAN, BIC) ist auf Plausibilität geprüft.
+            \item Registrierungsbestätigung wurde versendet
+            \end{itemize}
+	\end{contractbox}
+
+
+
+
+    \subsubsection{ Ankündigung für Wettangebote erstellen}
+
+    	\subsubsection{Ankündigung für Wettangebote erstellen}
+    \begin{figure}[H]
+	    \centering
+	    \includegraphics[width=0.8\linewidth]{Ankündigungen für Wettangebote erstellen.png}
+	    \caption{Ankündigung für Wettangebote erstellen}
+	    \label{fig:enter-label}
+	\end{figure}
+	\begin{contractbox}[\texttt{Operation OP1: openPublicitytTool()}]
+		\textbf{Operation:} openPublicitytTool()
+		
+			\textbf{Querverweis:} Use Cases "Ankündigung für Wettangebote erstellen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Benutzer ist als kommerzieller Wettanbieter eingeloggt
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Verwaltungstool wurde geöffnet.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2: openAnnouncementForm}]
+		\textbf{Operation:} openAnnouncementForm()
+		
+		\textbf{Querverweis:} Use Cases "Ankündigung für Wettangebote erstellen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Benutzer ist als kommerzieller Wettanbieter eingeloggt
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Formular mit Feldern (Titel: String , Link: String ) wird angezeigt
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3: submitAnnouncement }]
+	\textbf{Operation: } submitAnnouncement(Titel : String ,Link : String , targetFilters : List , Datum:Date )
+	
+	\textbf{Querverweis:} Use Cases "Ankündigung für Wettangebote erstellen"
+	\textbf{Vorbedingung:}
+	\begin{itemize}[noitemsep] 
+		\item Formular ist geöffnet
+	\end{itemize}
+	
+	\textbf{Nachbedingungen:}
+	\begin{itemize}[noitemsep] 
+		\item Daten wurden validiert
+        \item Guthabenprüfung wurde initiiert
+	\end{itemize}
+\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4: checkUrlWhitelist }]
+		\textbf{Operation:} checkUrlWhitelist(Link : String)
+		
+		\textbf{Querverweis:} Use Cases "Ankündigung für Wettangebote erstellen"
+		
+        \textbf{Vorbedingung:}
+	\begin{itemize}[noitemsep] 
+		\item  Link wurde eingereicht
+	\end{itemize}
+	
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Link wurde gegen Whitelist geprüft
+		\end{itemize}
+	\end{contractbox}
+	
+	
+    
+    \begin{contractbox}[\texttt{Operation OP5: publishAnnouncement }]
+		\textbf{Operation:} publishAnnouncement(Titel : String)
+		
+		\textbf{Querverweis:} Use Cases "Ankündigung für Wettangebote erstellen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Guthaben ≥ 10 THMCoins
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Erfolgsmeldung "Ankündigung veröffentlicht" wird angezeigt
+            \item Ankündigung ist aktiv und sichtbar
+            \end{itemize}
+	\end{contractbox}
+
+
+
+
+  \subsubsection{ Zielgruppe für Ankündigung festlegen}
+
+  \begin{figure}[H]
+	    \centering
+	    \includegraphics[width=0.8\linewidth]{Zielgruppe fuer Ankündigung festlegen.png}
+	    \caption{Zielgruppe für Ankündigung festlegen}
+	    \label{fig:enter-label}
+	\end{figure}
+	\begin{contractbox}[\texttt{Operation OP1:openTargetingTool }]
+		\textbf{Operation:} openTargetingTool()
+		
+			\textbf{Querverweis:} Use Cases " Zielgruppe für Ankündigung festlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item  Benutzer hat Berechtigung zur Zielgruppenkonfiguration.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Ankündigung ist mit dem Targeting-Tool verknüpft.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2: configureTargetGroup }]
+		\textbf{Operation:} configureTargetGroup(Interesse: List,  Aktivitätsgrad: Integer,  Link: String)
+		
+		\textbf{Querverweis:} Use Cases "Zielgruppe für Ankündigung festlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Targeting-Tool ist geöffnet
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+            \item  Zielgruppenparameter wurden gespeichert.
+			\item Reichweitenschätzung wurde durchgeführt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3: TargetConfig }]
+	\textbf{Operation:} TargetConfig()
+	
+	\textbf{Querverweis:} Use Cases "Zielgruppe für Ankündigung festlegen"
+	 \textbf{Vorbedingungen:}
+    \begin{itemize}[noitemsep]
+        \item Targeting-Optionen sind richtig angezeigt.
+    \end{itemize}
+	
+	\textbf{Nachbedingungen:}
+	\begin{itemize}[noitemsep] 
+		\item Zielgruppe wird kofiguriert .
+        \item Link wird festgelegt .
+	\end{itemize}
+\end{contractbox}
+	
+	
+	
+	\begin{contractbox}[\texttt{Operation OP4: generateDigitalSignatur }]
+		\textbf{Operation:} generateDigitalSignatur()
+		
+		\textbf{Querverweis:} Use Cases "Zielgruppe für Ankündigung festlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Geschätzte Reichweite ist kleiner als  Minimumreichweite
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die digitale Signatur wird generiert.
+            \end{itemize}
+	\end{contractbox}
+
+    \begin{contractbox}[\texttt{Operation OP5: confirmDistribution }]
+		\textbf{Operation:} confirmDistribution(Titel: String, Beschreibung: String , validierung: Boolean)
+		
+		\textbf{Querverweis:} Use Cases "Zielgruppe für Ankündigung festlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Reichweite ist akzeptabel oder wurde bestätigt.
+            \item die digitale signatur ist veröffentlicht.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Erfolgsmeldung " Zielgruppe gespeichert" wird angezeigt.
+           \item Ankündigung wird zur Veröffentlichung freigegeben.
+            \end{itemize}
+	\end{contractbox}
+
+    
+    \begin{contractbox}[\texttt{Operation OP6 : confirmInformation }]
+		\textbf{Operation:} confirmInformation(Titel: String)
+		
+		\textbf{Querverweis:} Use Cases "Zielgruppe für Ankündigung festlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Ankündigung ist validiert.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Zielgruppe wird gespeichert
+            \end{itemize}
+	\end{contractbox}
+    
+\begin{contractbox}[\texttt{Operation OP7: confirmconfirgurationgroup }]
+		\textbf{Operation:} confirmconfirgurationgroup()
+		
+		\textbf{Querverweis:} Use Cases "Zielgruppe für Ankündigung festlegen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Erfolgsmeldung "Zielgruppe gespeichert" ist angezeigt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item die Zielgruppe ist angekündigt
+            \end{itemize}
+	\end{contractbox}
+
+
+
+
+    \subsubsection{  Via externem  Link ankündigen}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{via externem Link ankündigen.png}
+        \caption{Via externem  Link ankündigen}
+        \label{fig:enter-label}
+    \end{figure}
+    
+	\begin{contractbox}[\texttt{Operation OP1: openAnnouncementCreation }]
+		\textbf{Operation:} openAnnouncementCreation()
+		
+			\textbf{Querverweis:} Use Cases "Via externem  Link ankündigen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Benutzer ist als kommerzieller Wettanbieter authentifiziert.
+            \item Ankündigungsfunktion ist verfügbar.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+           \item Ankündigungsformular wird angezeigt.
+			\item Formular enthält Felder für Titel, URL, Zielgruppenfilter und Budget.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2: fillAnnouncementDetails}]
+		\textbf{Operation:} fillAnnouncementDetails(Title : String , (externer)Link : String )
+		
+		\textbf{Querverweis:} Use Cases "Via externem  Link ankündigen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Ankündigungsformular ist geöffnet
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+           \item alle Pflichtfelder sind ausgefüllt.
+			\item Formulardaten sind zwischengespeichert.
+		\end{itemize}
+	\end{contractbox}
+
+    \begin{contractbox}[\texttt{Operation OP3: completeFormular}]
+	\textbf{Operation: } completeFormular()
+	
+	\textbf{Querverweis:} Use Cases "Via externem  Link ankündigen"
+
+    \textbf{Vorbedingung:}
+	\begin{itemize}[noitemsep] 
+		\item das Formular ist richtig angezeigt. 
+	\end{itemize}
+	
+	\textbf{Nachbedingungen:}
+	\begin{itemize}[noitemsep] 
+		\item Die Pflichtfelder werden entsprechend den Rechtschreibungsformaten richtig angezeigt.
+	\end{itemize}
+\end{contractbox}
+
+	\begin{contractbox}[\texttt{Operation OP4: verifyUrlWhitelist}]
+	\textbf{Operation: } verifyUrlWhitelist((externer)Url: String)
+	
+	\textbf{Querverweis:} Use Cases "Via externem  Link ankündigen"
+
+    \textbf{Vorbedingung:}
+	\begin{itemize}[noitemsep] 
+		\item URL wurde im Formular angegeben
+	\end{itemize}
+	
+	\textbf{Nachbedingungen:}
+	\begin{itemize}[noitemsep] 
+		\item Whitelist-Status ist bekannt.
+	\end{itemize}
+\end{contractbox}
+	
+ \begin{contractbox}[\texttt{Operation OP5: requestManualApproval }]
+		\textbf{Operation:} requestManualApproval(AnzeigeID: Integer , manuellAkzetiert: Boolean)
+		
+		\textbf{Querverweis:} Use Cases "Via externem  Link ankündigen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Ankündigung erfordert manuelle Freigabe.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Freigabeanfrage wird an Moderator gesendet.
+            \end{itemize}
+	\end{contractbox}
+
+    \begin{contractbox}[\texttt{Operation OP6: publishAnnouncement }]
+		\textbf{Operation:} publishAnnouncement( Titel:String)
+		
+		\textbf{Querverweis:} Use Cases " Via externem  Link ankündigen"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item URL ist whitelisted
+            \item Guthaben ist ausreichend oder manuelle Freigabe erfolgt
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Ankündigung wurde veröffentlicht.
+            \item Tracking wurde eingerichtet
+            \end{itemize}
+	\end{contractbox}
+
+   
+   
+
+
+
+     \subsubsection{  Durch externen Link weiterleiten }
+
+     \begin{figure}
+         \centering
+         \includegraphics[width=0.8\linewidth]{durch externen Link weiterleiten.png}
+         \caption{Durch externen Link weiterleiten }
+         \label{fig:enter-label}
+     \end{figure}
+	\begin{contractbox}[\texttt{Operation OP1:handleExternalLinkClick }]
+		\textbf{Operation:} handleExternalLinkClick(Link: String, ID: String)
+		
+			\textbf{Querverweis:} Use Cases "Durch externen Link weiterleiten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item  Gesponserte Ankündigung ist sichtbar und klickbar.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Sicherheitshinweis "Externer Link" wird angezeigt.
+            \item Link-Überprüfung wurde initiiert.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2: verifyLinkSafety }]
+		\textbf{Operation:} verifyLinkSafety(Link: String)
+		
+		\textbf{Querverweis:} Use Cases "Durch externen Link weiterleiten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Externer Link wurde angeklickt .
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Link wurde gegen Whitelist geprüft.
+            \item Sicherheitsstatus des Links ist bekannt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3: trackingPixelverification }]
+	\textbf{Operation: }  openVerifiedLink(trackingOk: Boolean   )
+	
+	\textbf{Querverweis:} Use Cases "Durch externen Link weiterleiten"
+	\textbf{Vorbedingungen:}
+    \begin{itemize}[noitemsep]
+        \item Link wurde als sicher verifiziert .
+    \end{itemize}
+	
+	\textbf{Nachbedingungen:}
+	\begin{itemize}[noitemsep] 
+		\item  Zielseite wurde in neuem Tab geöffnet.
+	\end{itemize}
+\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4: openLinkDisplay}]
+		\textbf{Operation:} openLinkDisplay(Link: String, Beschreibung: String)
+		
+		\textbf{Querverweis:} Use Cases "Durch externen Link weiterleitenn"
+		
+	 \textbf{Vorbedingungen:}
+    \begin{itemize}[noitemsep]
+        \item Tracking pixel ist getriggert
+    \end{itemize}
+    
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item der Link wird in einem neuen Tab geöffnet.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP5: showSecurityNotice }]
+		\textbf{Operation:} showSecurityNotice(Link: String, Titel: String)
+		
+		\textbf{Querverweis:} Use Cases "Durch externen Link weiterleiten"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item die Zielseite wurde in einem neuen Tab veröffentlicht.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Benutzeraktion wird dem Sponsor zugeordnet.
+            \end{itemize}
+	\end{contractbox}
+
+
+
+\subsubsection{ THMCoins an PUS gutschreiben }
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{THMCoins an PUS gutschreiben.png}
+    \caption{THMCoins an PUS gutschreiben}
+    \label{fig:enter-label}
+\end{figure}
+	\begin{contractbox}[\texttt{Operation OP1: openCoinManagementTool }]
+		\textbf{Operation:} openCoinManagementTool()
+		
+			\textbf{Querverweis:} Use Cases "THMCoins an PUS gutschreiben"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item   Benutzer ist authentifiziert und berechtigt.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THMCoin-Verwaltungsoberfläche ist geöffnet.
+            \item Eingabemaske für PUS-Suche und Betragseingabe ist sichtbar.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2: searchPUS }]
+		\textbf{Operation:} searchPUS(Username: String)
+        
+		\textbf{Querverweis:} Use Cases "THMCoins an PUS gutschreiben"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Coin-Verwaltung ist geöffnet .
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Liste der passenden PUS wird angezeigt.
+            \item Auswahl eines PUS ist möglich.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3: enterTransactionDetails }]
+	\textbf{Operation: enterTransactionDetails(GutschriftID: integer , empfanger :String, Betrag: interger } 
+	
+	\textbf{Querverweis:} Use Cases "THMCoins an PUS gutschreiben"
+
+    \textbf{Vorbedingungen:}
+    \begin{itemize}[noitemsep]
+        \item PUS wurde ausgewählt.
+        \item Betrag und Verwendungszweck wurden eingegeben.
+    \end{itemize}
+	
+	\textbf{Nachbedingungen:}
+	\begin{itemize}[noitemsep] 
+		\item Bestätigungsdialog mit Transaktionsdetails wird angezeigt.
+        \item Gebühren wurden berechnet.
+	\end{itemize}
+\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4: validateTransaction}]
+		\textbf{Operation:} validateTransaction(pusID: String, amount: Decimal)
+		
+		\textbf{Querverweis:} Use Cases "THMCoins an PUS gutschreiben"
+
+        \textbf{Vorbedingungen:}
+    \begin{itemize}[noitemsep]
+        \item Transaktionsdetails wurden eingegeben .
+    \end{itemize}
+	
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Guthaben wurde auf Verfügbarkeit geprüft.
+            \item PUS-Existenz wurde geprüft.
+            \item Limits wurden überprüft 
+            \item Validierungsergebnis liegt vor.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP5:confirmationMesssage }]
+		\textbf{Operation:} confirmationMesssage(UserID: String, Kontostand: Integer, Region : String)
+		
+		\textbf{Querverweis:} Use Cases "THMCoins an PUS gutschreiben"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item transaktion wurde erfolgreich validiert .
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item THMCoins wurden transferiert.
+            \item Salden von Sender und Empfänger wurden aktualisiert.
+            \end{itemize}
+	\end{contractbox}
+
+    \begin{contractbox}[\texttt{Operation OP6: sendTransactionReceipt }]
+		\textbf{Operation:} sendTransactionReceipt(transactionID: String)
+		
+		\textbf{Querverweis:} Use Cases " THMCoins an PUS gutschreiben"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Transaktion wurde erfolgreich durchgeführt .
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Transaktionsbeleg wurde generiert.
+            \item Beleg wurde an den PUS versendet.
+            \item Erfolgsmeldung wurde angezeigt.
+            \end{itemize}
+	\end{contractbox}
+
+    
+    \begin{contractbox}[\texttt{Operation OP7 : meldungConfirmation }]
+		\textbf{Operation:} meldungConfirmation() 
+		
+		\textbf{Querverweis:} Use Cases "THMCoins an PUS gutschreiben"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Salo wurde aktualisiert 
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Transaktion wird problemlos erfolgen 
+            \end{itemize}
+	\end{contractbox}
+    \begin{contractbox}[\texttt{Operation OP8 : schickebeleg  }]
+		\textbf{Operation:} schickebeleg(Gutschrift: list)
+		
+		\textbf{Querverweis:} Use Cases "THMCoins an PUS gutschreiben"
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Transaktion ist problemlos erfolgt
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Transaktionbeleg wird versendet
+            \end{itemize}
+	\end{contractbox}
+    
+
+    \subsubsection{ THMCoins-Gutschriften eines KWA monatlich abrechnen }
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{THMCoins-Gutschriften eines KWA monatlich abrechnen.png}
+        \caption{THMCoins-Gutschriften eines KWA monatlich abrechnen}
+        \label{fig:enter-label}
+    \end{figure}
+	\begin{contractbox}[\texttt{Operation OP1: aggregateCredits}]
+		\textbf{Operation: aggregateCredits(kwaID: String, Rechnungnummer: Integer, Gutschrift : List)}
+		
+			\textbf{Querverweis:} Use Cases "THMCoins-Gutschriften eines KWA monatlich abrechnen "
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item  Für den angegebenen Monat/Jahr existieren Transaktionen.
+            \item  Der KWA ist im System registriert und aktiv.
+            \item Die Gesamtsumme vor Provision ist berechnet.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Alle Gutschriften des KWAs für den Monat wurden aggregiert.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP2: calculateCommission }]
+		\textbf{Operation:} calculateCommission(Rechnungnummer: Integer)
+		
+		\textbf{Querverweis:} Use Cases "THMCoins-Gutschriften eines KWA monatlich abrechnen "
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Gesamtsumme der Gutschriften ist berechnet .
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item  5\% Provision wurde abgezogen.
+            \item Der Nettobetrag nach Provision ist berechnet.
+            \item MwSt wurde korrekt hinzugefügt.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP3:generateInvoice}]
+	\textbf{Operation: generateInvoice(kwaID: String, netAmount: Decimal, Gutschriften: List) } 
+	
+	\textbf{Querverweis:} Use Cases "THMCoins-Gutschriften eines KWA monatlich abrechnen "
+    
+	\textbf{Vorbedingungen:}
+    \begin{itemize}[noitemsep]
+        \item Die Nettosumme nach Provision ist berechnet .
+        \item Die Transaktionsliste ist verfügbar.
+    \end{itemize}
+	
+	\textbf{Nachbedingungen:}
+	\begin{itemize}[noitemsep] 
+		 \item Eine Rechnung mit allen Pflichtangaben wurde erstellt.
+        \item Die Rechnung enthält:
+            \begin{itemize}[noitemsep]
+                \item Rechnungsnummer und Datum
+                \item Transaktionsliste
+                \item Nettobetrag, MwSt, Bruttobetrag
+                \item Zahlungsziel (14 Tage)
+            \end{itemize}
+	\end{itemize}
+\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP4: sendInvoice }]
+		\textbf{Operation: sendInvoice(KWAMail :String, Titel: String )} 
+		
+		\textbf{Querverweis:} Use Cases "THMCoins-Gutschriften eines KWA monatlich abrechnen "
+		
+	\textbf{Vorbedingungen:}
+    \begin{itemize}[noitemsep]
+        \item Die Rechnung wurde erstellt .
+        \item Der KWA hat eine gültige E-Mail-Adresse hinterlegt.
+    \end{itemize}
+    
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Rechnung wurde an die hinterlegte E-Mail-Adresse des KWAs versendet.
+		\end{itemize}
+	\end{contractbox}
+	
+	\begin{contractbox}[\texttt{Operation OP5: activatePaymentMonitoring }]
+		\textbf{Operation: activatePaymentMonitoring()}
+		
+		\textbf{Querverweis:} Use Cases "THMCoins-Gutschriften eines KWA monatlich abrechnen "
+		
+		\textbf{Vorbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Die Rechnung wurde versendet.
+		\end{itemize}
+		
+		\textbf{Nachbedingungen:}
+		\begin{itemize}[noitemsep]
+			\item Das Fälligkeitsdatum (14 Tage nach Rechnungsdatum) ist gesetzt. 
+            \item Die 
+
+            Zahlungsüberwachung für diese Rechnung ist aktiviert.
+            \end{itemize}
+	\end{contractbox}
+
+    
+    \end{document}

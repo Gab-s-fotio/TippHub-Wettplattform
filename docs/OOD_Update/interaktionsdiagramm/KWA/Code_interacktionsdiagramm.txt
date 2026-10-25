@@ -1,0 +1,165 @@
+@startuml
+skinparam ParticipantActivationWidth 0
+
+participant ":Kommerziele Wettanbieter" as KWA
+participant ":KWAAdministrationView" as AdminView
+
+' Use Case: KWA auf plattform registrieren 
+
+note left of KWA
+  Durch Controler
+end note
+-> KWA : openRegistertTool()
+KWA -> AdminView : create()
+note left of AdminView
+  :KWAerstellt einen :KWAAdministrationView durch create
+end note
+AdminView-> AdminView: showRegistrationForm()
+
+AdminView -> KWA : submitRegistration( FirmenName , Bank verbindung ,acceptTerms )
+KWA-> KWA: validateRegistration(Firmenname , bankverbindung , AGakzept)
+AdminView -> AdminView : confirmRegistration(Firmenname)
+@enduml
+
+
+
+@startuml
+skinparam ParticipantActivationWidth 0
+
+participant ":Kommerziele Wettanbieter" as KWA
+participant ":KWAAdministrationView" as AdminView
+participant ":Anzeige " as PUS
+
+' Use Case: Ankümdigung für Wettangebote erstellen
+
+note left of KWA
+  Durch Controler
+end note
+-> KWA : openPublicitytTool()
+KWA -> AdminView : create()
+note left of AdminView
+  :KWA erstellt einen :KWAAdministrationView durch create
+end note
+AdminView-> AdminView: openAnnouncementForm()
+AdminView-> AdminView: checkUrlWhitelist(Link )
+
+AdminView -> PUS: publishAnnouncement(Titel)
+@enduml
+
+@startuml
+skinparam ParticipantActivationWidth 0
+
+participant ":Kommerziele Wettanbieter" as KWA
+participant ":KWAAdministrationView" as AdminView
+participant ":Anzeige " as PUS
+participant ":Peer User" as P
+' Use Case: Zielgruppe für Ankündingung festlegen
+
+note left of KWA
+  Durch Controler
+end note
+-> KWA : openTargetingTool()
+KWA -> AdminView : create()
+note left of AdminView
+  :KWA erstellt einen :KWAAdministrationView durch create
+end note
+P-> AdminView : configureTargetGroup(Interesse, Aktivitätsgrad, LinK)
+AdminView -> AdminView : TargetConfig()
+AdminView ->AdminView :generateDigitalSignatur()
+AdminView -> KWA :confirmDistribution(Titel, Beschreibung, validierung)
+AdminView -> AdminView : confirmInformation(Titel)
+AdminView -> PUS: confirmconfirgurationgroup()
+
+@enduml
+
+@startuml
+skinparam ParticipantActivationWidth 0
+
+participant ":Kommerziele Wettanbieter" as KWA
+participant ":KWAAdministrationView" as AdminView
+participant ":Anzeige " as PUS
+participant ":Peer User" as P
+' Use Case: Via externem link ankündigen
+
+note left of KWA
+  Durch Controler
+end note
+-> KWA : openAnnouncementCreation()
+KWA -> AdminView : create()
+note left of AdminView
+  :KWA erstellt einen :KWAAdministrationView durch create
+end note
+PUS-> AdminView : fillAnnouncementDetails(Title, (externer)Link )
+AdminView -> AdminView : completeFormular()
+PUS->PUS:verifyUrlWhitelist((externer)Url)
+PUS-> PUS: requestManualApproval(AnzeigeID, manuellAkzetiert)
+PUS-> P: publishAnnouncement(Titel)
+
+@enduml
+
+@startuml
+skinparam ParticipantActivationWidth 0
+
+participant ":Kommerziele Wettanbieter" as KWA
+participant ":KWAAdministrationView" as AdminView
+participant ":Anzeige " as PUS
+participant ":Peer User" as P
+' Use Case: Durch externen link weiterleiten 
+
+note left of KWA
+  Durch Controler
+end note
+-> KWA : handleExternalLinkClick(Link, Anzeige ID)
+KWA -> AdminView : create()
+note left of AdminView
+  :KWA erstellt einen :KWAAdministrationView durch create
+end note
+PUS-> PUS: verifyLinkSafety(Link)
+PUS-> PUS: openVerifiedLink(trackingOK)
+P->AdminView :openLinkDisplay(Link , Beschreibung)
+@enduml
+
+@startuml
+skinparam ParticipantActivationWidth 0
+
+participant ":Kommerziele Wettanbieter" as KWA
+participant ":KWAAdministrationView" as AdminView
+participant ":Peer User" as P
+'participant ":Abrechnung" as C
+' Use Case: THCoins an PUS gutschreiben
+
+note left of KWA
+  Durch Controler
+end note
+-> KWA :openCoinManagementTool()
+KWA -> AdminView : create()
+note left of AdminView
+  :KWA erstellt einen :KWAAdministrationView durch create
+end note
+AdminView -> P: searchPUS(Username)
+AdminView -> KWA: sendTransactionReceipt(ID, empfanger ,Betrag)
+AdminView ->KWA: meldungConfirmation() 
+
+
+@enduml
+
+
+@startuml
+skinparam ParticipantActivationWidth 0
+
+participant ":Kommerziele Wettanbieter" as KWA
+participant ":KWAAdministrationView" as AdminView
+'participant ":Peer User" as P
+participant ":Abrechnung" as C
+' Use Case: THMCoins-Gutschriften eines KWA monatlich abrechnen
+
+KWA -> AdminView : create()
+note left of AdminView
+  :KWA erstellt einen :KWAAdministrationView durch create
+end note
+C -> C : aggregateCredits(kwaID, Rechnungnummer,Gutschrift)
+C-> C : calculateCommission(Rechnungnummer)
+C -> C :generateInvoice(kwaID, netAmount, Gutschriften)
+C -> AdminView  : sendInvoice(kwaID, Abrechnungrechnung )
+
+@enduml

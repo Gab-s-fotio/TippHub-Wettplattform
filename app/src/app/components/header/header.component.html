@@ -1,0 +1,18 @@
+<div class="header-nav">
+  <span class="home-link">
+  <a routerLink="/home" routerLinkActive="active">
+    <img src="assets/images/Tipphub Logo.png" alt="Home" />
+  </a>
+</span>
+  <span class="right-links">
+    <a routerLink="/my-communities" routerLinkActive="active">Meine Communities</a>
+    <a routerLink="/my-bets" routerLinkActive="active">Meine Wetten</a>
+    <a routerLink="/profile-page" routerLinkActive="active">Profil</a>
+    <button class="sidebar-toggle" (click)="toggleSidebar()" aria-label="Menü öffnen">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </span>
+  <app-sidebar *ngIf="sidebarOpen" (closeSidebar)="toggleSidebar()"></app-sidebar>
+</div>

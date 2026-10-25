@@ -1,0 +1,18 @@
+@startuml
+
+actor ":TippHub Betreiber" as thb
+participant ":System" as system
+
+activate thb
+thb -> system: öffne Userverwaltung
+rnote right #lightgreen: OP1(UC-1)
+deactivate thb
+activate system
+system --> thb : Anzeige der Userliste
+rnote left #lightgreen: OP2(UC-2)
+activate thb
+thb -> system : wähle und sperre User
+rnote right #lightgreen: OP3(UC-2)
+system --> thb : Bestätigung der Sperrung
+rnote left #lightgreen: OP4(UC-2)
+deactivate thb
